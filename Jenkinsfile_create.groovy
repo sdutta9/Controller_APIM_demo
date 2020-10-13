@@ -6,8 +6,8 @@ pipeline {
     agent any
 
     parameters {
-        string(defaultValue: "10.1.1.4", description: 'Controller (UDF URL / IP Address)', name: 'controllerUrl')
-        string(defaultValue: "admin@nginxcontrollerdemo.com", description: 'Controller Username', name: 'username')
+        string(defaultValue: "10.1.1.6", description: 'Controller (UDF URL / IP Address)', name: 'controllerUrl')
+        string(defaultValue: "admin@test.com", description: 'Controller Username', name: 'username')
         password(defaultValue: "", description: 'Controller Password', name: 'password')
     }
 
