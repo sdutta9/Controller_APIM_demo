@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "4411d251-de08-40a4-9d76-d46a79c59102",
+		"name": "Controller3.x_deploy_F1_V2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "95aad3b4-0a7b-42e9-a348-1987dc687e05",
+						"exec": [
+							"pm.test(\"Login status\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 204){",
+							"        console.log(\"Login was successful. Moving to next step.\");",
+							"        postman.setNextRequest(\"Create_F1_V2_API_definition\");",
+							"        return true;",
+							"    }",
+							"    else {",
+							"        console.error(\"Login was not successful. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Login was not successful. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"credentials\": {\n        \"type\": \"BASIC\",\n        \"username\": \"{{USERNAME}}\",\n        \"password\": \"{{PASSWORD}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/platform/login",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"platform",
+						"login"
+					]
+				},
+				"description": "login to Controller"
+			},
+			"response": []
+		},
+		{
+			"name": "Create_F1_V2_API_definition",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6e9febd6-75de-4052-a7d8-baa1e47cb5b7",
+						"exec": [
+							"console.log(\"NOTICE: Creating F1-results V2 API definition\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d3b52b55-79c4-4ad9-a6c3-2d3c5f18c2e8",
+						"exec": [
+							"pm.test(\"Check if F1-results V2 API Definition got created\", function(){",
+							"    var status = pm.response.code",
+							"    if(status == 200|| status == 201){",
+							"        console.log(\"F1-results V2 API definition created successfully.\");",
+							"        postman.setNextRequest(\"Publish_F1_V2_API\");",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"F1-results V2 API definition creation failed.\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/yaml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "---\ncomponents:\n  schemas:\n    Circuit:\n      properties:\n        Location:\n          properties:\n            country:\n              example: Australia\n              type: string\n            lat:\n              example: \"-37.8497\"\n              type: string\n            locality:\n              example: Melbourne\n              type: string\n            long:\n              example: '144.968'\n              type: string\n          type: object\n        circuitId:\n          example: albert_park\n          type: string\n        circuitName:\n          example: Albert Park Grand Prix Circuit\n          type: string\n        url:\n          example: http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit\n          type: string\n      type: object\n    Driver:\n      properties:\n        code:\n          example: HAM\n          type: string\n        driverId:\n          example: hamilton\n          type: string\n        familyName:\n          example: Hamilton\n          type: string\n        givenName:\n          example: Lewis\n          type: string\n        permanentNumber:\n          example: '44'\n          type: string\n        url:\n          example: http://en.wikipedia.org/wiki/Lewis_Hamilton\n          type: string\n      required:\n      - driverId\n      - url\n      type: object\n    Drivers:\n      items:\n        \"$ref\": \"#/components/schemas/Driver\"\n      type: array\n    Error:\n      properties:\n        code:\n          format: int32\n          type: integer\n        message:\n          type: string\n      required:\n      - code\n      - message\n      type: object\n    MRData:\n      properties:\n        limit:\n          example: '30'\n          type: string\n        offset:\n          example: '0'\n          type: string\n        series:\n          example: f1\n          type: string\n        total:\n          example: '1'\n          type: string\n        xmlns:\n          example: http://ergast.com/mrd/1.0\n          type: string\n      type: object\n    Race:\n      properties:\n        Circuit:\n          \"$ref\": \"#/components/schemas/Circuit\"\n          type: object\n        date:\n          example: '2008-03-16'\n          type: string\n        raceName:\n          example: Australian Grand Prix\n          type: string\n        round:\n          example: '1'\n          type: string\n        season:\n          example: '2008'\n          type: string\n        time:\n          example: 04:30:00Z\n          type: string\n        url:\n          example: http://en.wikipedia.org/wiki/2008_Australian_Grand_Prix\n          type: string\n      type: object\n    ResultDriver:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              DriverTable:\n                properties:\n                  Drivers:\n                    items:\n                      \"$ref\": \"#/components/schemas/Driver\"\n                    type: array\n                  driverId:\n                    example: hamilton\n                    type: string\n            type: object\n      type: object\n    ResultDriverList:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              DriverTable:\n                properties:\n                  Drivers:\n                    items:\n                      \"$ref\": \"#/components/schemas/Driver\"\n                    type: array\n            type: object\n      type: object\n    ResultDriverSeasonList:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              SeasonTable:\n                properties:\n                  Seasons:\n                    items:\n                      \"$ref\": \"#/components/schemas/Seasons\"\n                    type: array\n                  driverId:\n                    example: hamilton\n                    type: string\n            type: object\n      type: object\n    ResultRace:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              RaceTable:\n                properties:\n                  Races:\n                    items:\n                      \"$ref\": \"#/components/schemas/Race\"\n                    type: array\n                  round:\n                    example: '1'\n                    type: string\n                  season:\n                    example: '2020'\n                    type: string\n                type: object\n            type: object\n      type: object\n    ResultRaceList:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              RaceTable:\n                properties:\n                  Races:\n                    items:\n                      \"$ref\": \"#/components/schemas/Race\"\n                    type: array\n                  season:\n                    example: '2020'\n                    type: string\n                type: object\n            type: object\n      type: object\n    ResultSeasonList:\n      properties:\n        MRData:\n          allOf:\n          - \"$ref\": \"#/components/schemas/MRData\"\n          - properties:\n              SeasonTable:\n                properties:\n                  Seasons:\n                    items:\n                      \"$ref\": \"#/components/schemas/Seasons\"\n                    type: array\n            type: object\n      type: object\n    Season:\n      properties:\n        season:\n          example: '2003'\n          type: string\n        url:\n          example: http://en.wikipedia.org/wiki/F1_2003\n          type: string\n      type: object\n    Seasons:\n      items:\n        \"$ref\": \"#/components/schemas/Season\"\n      type: array\ninfo:\n  license:\n    name: MIT\n  title: F1 Results API\n  version: '1'\nopenapi: 3.0.0\npaths:\n  \"/api/f1/drivers\":\n    get:\n      operationId: listDrivers\n      parameters:\n      - description: How many items to return at one time (max 100)\n        in: query\n        name: limit\n        required: false\n        schema:\n          format: int32\n          type: integer\n      responses:\n        '200':\n          content:\n            application/json:\n              schema:\n                \"$ref\": \"#/components/schemas/ResultDriverList\"\n          description: A paged array of drivers\n          headers:\n            x-next:\n              description: A link to the next page of responses\n              schema:\n                type: string\n        default:\n          content:\n            application/json:\n              schema:\n                \"$ref\": \"#/components/schemas/Error\"\n          description: unexpected error\n      summary: List all drivers\n      tags:\n      - drivers\n    post:\n      operationId: createDrivers\n      responses:\n        '201':\n          description: Null response\n        default:\n          content:\n            application/json:\n              schema:\n                \"$ref\": \"#/components/schemas/Error\"\n          description: unexpected error\n      summary: Create a driver\n      tags:\n      - drivers\n  \n  \"/api/f1/seasons\":\n    get:\n      operationId: listSeasons\n      responses:\n        '200':\n          content:\n            application/json:\n              schema:\n                \"$ref\": \"#/components/schemas/ResultSeasonList\"\n          description: Expected response to a valid request\n        default:\n          content:\n            application/json:\n              schema:\n                \"$ref\": \"#/components/schemas/Error\"\n          description: unexpected error\n      summary: A paged array of seasons\n      tags:\n      - seasons\nservers:\n- description: SwaggerHub API Auto Mocking\n  url: https://virtserver.swaggerhub.com/sports/liam-f1/1\n- url: http://ergast.com/api/f1\n"
+				},
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/f1-results/versions/v2/import",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"api-definitions",
+						"f1-results",
+						"versions",
+						"v2",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Publish_F1_V2_API",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "54ca6a45-b70d-4643-b2a3-6edc4cad48cd",
+						"exec": [
+							"console.log(\"NOTICE: Publishing F1-results V2 API\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad316bee-e426-4224-b9ac-a26b72a3ba66",
+						"exec": [
+							"pm.test(\"Check if F1-results V2 API got published\", function(){",
+							"    var status = pm.response.code",
+							"    if(status == 200 || status == 201 || status == 202){",
+							"        console.log(\"F1-results V2 API published successfully.\");",
+							"        postman.setNextRequest(\"Create_F1_V2_Component\");",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"F1-results V2 API publishing failed.\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"metadata\": {\n    \"name\": \"f1-v2-dev\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/f1-results/versions/v2\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/sports-results/published-apis/f1-v2-prod",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"prod",
+						"apps",
+						"sports-results",
+						"published-apis",
+						"f1-v2-prod"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create_F1_V2_Component",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "15c75821-95ef-4c0c-a8bd-823d74872b0e",
+						"exec": [
+							"console.log(\"NOTICE: Creating F1 V2 Component\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "83da47d6-ce42-46a7-8eb4-162e6ab54db6",
+						"exec": [
+							"pm.test(\"Check if F1 V2 component got created\", function(){",
+							"    var status = pm.response.code",
+							"    if(status == 200 || status == 201 || status == 202){",
+							"        console.log(\"F1 V2 component created successfully.\");",
+							"        postman.setNextRequest(null);",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"F1 V2 component creation failed.\");",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"metadata\": {\n    \"name\": \"f1-backend-v2\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"ingress\": {\n      \"uris\": {\n        \"/api/f1/drivers\": {\n          \"get\": {\n            \"operationId\": \"listDrivers\",\n            \"parameters\": [\n              {\n                \"description\": \"How many items to return at one time (max 100)\",\n                \"in\": \"query\",\n                \"name\": \"limit\",\n                \"required\": false,\n                \"schema\": {\n                  \"format\": \"int32\",\n                  \"type\": \"integer\"\n                }\n              }\n            ],\n            \"responses\": {\n              \"200\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"schema\": {\n                      \"$ref\": \"#/components/schemas/ResultDriverList\"\n                    }\n                  }\n                },\n                \"description\": \"A paged array of drivers\",\n                \"headers\": {\n                  \"x-next\": {\n                    \"description\": \"A link to the next page of responses\",\n                    \"schema\": {\n                      \"type\": \"string\"\n                    }\n                  }\n                }\n              },\n              \"default\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"schema\": {\n                      \"$ref\": \"#/components/schemas/Error\"\n                    }\n                  }\n                },\n                \"description\": \"unexpected error\"\n              }\n            },\n            \"summary\": \"List all drivers\",\n            \"tags\": [\n              \"drivers\"\n            ]\n          },\n          \"post\": {\n            \"operationId\": \"createDrivers\",\n            \"responses\": {\n              \"201\": {\n                \"description\": \"Null response\"\n              },\n              \"default\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"schema\": {\n                      \"$ref\": \"#/components/schemas/Error\"\n                    }\n                  }\n                },\n                \"description\": \"unexpected error\"\n              }\n            },\n            \"summary\": \"Create a driver\",\n            \"tags\": [\n              \"drivers\"\n            ]\n          }\n        },\n        \"/api/f1/seasons\": {\n          \"get\": {\n            \"operationId\": \"listSeasons\",\n            \"responses\": {\n              \"200\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"schema\": {\n                      \"$ref\": \"#/components/schemas/ResultSeasonList\"\n                    }\n                  }\n                },\n                \"description\": \"Expected response to a valid request\"\n              },\n              \"default\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"schema\": {\n                      \"$ref\": \"#/components/schemas/Error\"\n                    }\n                  }\n                },\n                \"description\": \"unexpected error\"\n              }\n            },\n            \"summary\": \"A paged array of seasons\",\n            \"tags\": [\n              \"seasons\"\n            ]\n          }\n        }\n      },   \n      \"gatewayRefs\": [\n        {\n          \"ref\": \"/services/environments/prod/gateways/apigw\"\n        }\n      ]\n    },\n    \"backend\": {\n      \"ntlmAuthentication\": \"DISABLED\",\n      \"preserveHostHeader\": \"DISABLED\",\n      \"workloadGroups\": {\n        \"ergast\": {\n          \"loadBalancingMethod\": {\n            \"type\": \"ROUND_ROBIN\"\n          },\n          \"uris\": {\n            \"http://{{ERGAST01}}:8002\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            }\n          }\n        }\n      }\n    },\n    \"logging\": {\n      \"errorLog\": \"DISABLED\",\n      \"accessLog\": {\n        \"state\": \"DISABLED\"\n      }\n    },\n    \"errorSetRef\": {\n      \"ref\": \"/services/errorsets/default-json\"\n    },\n    \"publishedApiRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/f1-v2-prod\"\n      }\n    ]\n  }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/sports-results/components/f1-backend-v2",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"prod",
+						"apps",
+						"sports-results",
+						"components",
+						"f1-backend-v2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
