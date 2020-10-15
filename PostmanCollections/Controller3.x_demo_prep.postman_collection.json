@@ -73,9 +73,9 @@
 							"        const responseJson = pm.response.json();",
 							"        if(responseJson.items.length >= 2){",
 							"            console.log(\"Current setup has more than 2 data plane instances.\");",
-							"            pm.environment.set(\"NAME_GW\", responseJson.items[0].metadata.name);",
-							"            pm.environment.set(\"NAME_DP\", responseJson.items[1].metadata.name);",
-							"            console.log(\"NOTICE: Using \"+ pm.environment.get(\"NAME_DP\") + \" as DEV Portal.\");",
+							"            // pm.environment.set(\"NAME_GW\", responseJson.items[0].metadata.name);",
+							"            // pm.environment.set(\"NAME_DP\", responseJson.items[1].metadata.name);",
+							"            // console.log(\"NOTICE: Using \"+ pm.environment.get(\"NAME_DP\") + \" as DEV Portal.\");",
 							"            postman.setNextRequest(\"Create_Environment\");",
 							"            return true;",
 							"        }",
@@ -377,7 +377,7 @@
 							"    if(pm.response.to.have.status(202)){",
 							"        console.log(\"Gateway created successfully.\");",
 							"        postman.setNextRequest(\"Create_Devportal_Gateway\");",
-							"        pm.environment.unset(\"NAME_GW\");",
+							"        // pm.environment.unset(\"NAME_GW\");",
 							"        return true;",
 							"    }",
 							"});"
@@ -391,7 +391,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n        \"name\": \"apigw\",\n        \"displayName\": \"Sports API gateways\"\n    },\n    \"desiredState\": {\n        \"errorSetRef\": {\n            \"ref\": \"/services/errorsets/default-json\"\n        },\n        \"ingress\": {\n            \"uris\": {\n                \"https://{{NAME_GW}}\": {}\n            },\n            \"placement\": {\n                \"instanceRefs\": [\n                    {\n                        \"ref\": \"/infrastructure/locations/unspecified/instances/{{NAME_GW}}\"\n                    }\n                ]\n            },\n            \"tls\": {\n                \"certRef\": {\n                    \"ref\": \"/services/environments/prod/certs/sports-e-c\"\n                },\n                \"preferServerCipher\": \"DISABLED\",\n                \"sessionCache\": \"SHARED\"\n            }\n        }\n    }\n}",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"apigw\",\n        \"displayName\": \"Sports API gateways\"\n    },\n    \"desiredState\": {\n        \"errorSetRef\": {\n            \"ref\": \"/services/errorsets/default-json\"\n        },\n        \"ingress\": {\n            \"uris\": {\n                \"https://{{URI_GW}}\": {}\n            },\n            \"placement\": {\n                \"instanceRefs\": [\n                    {\n                        \"ref\": \"/infrastructure/locations/unspecified/instances/{{NAME_GW}}\"\n                    }\n                ]\n            },\n            \"tls\": {\n                \"certRef\": {\n                    \"ref\": \"/services/environments/prod/certs/sports-e-c\"\n                },\n                \"preferServerCipher\": \"DISABLED\",\n                \"sessionCache\": \"SHARED\"\n            }\n        }\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -438,7 +438,7 @@
 							"    if(pm.response.to.have.status(202)){",
 							"        console.log(\"Devportal gateway created successfully.\");",
 							"        postman.setNextRequest(\"Create_Register_API_definition\");",
-							"        pm.environment.unset(\"NAME_DP\");",
+							"        // pm.environment.unset(\"NAME_DP\");",
 							"        return true;",
 							"    }",
 							"});"
@@ -452,7 +452,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n        \"name\": \"devportal\",\n        \"displayName\": \"Sports APIs dev portal\"\n    },\n    \"desiredState\": {\n        \"ingress\": {\n            \"uris\": {\n                \"http://{{NAME_DP}}\": {}\n            },\n            \"placement\": {\n                \"instanceRefs\": [\n                    {\n                        \"ref\": \"/infrastructure/locations/unspecified/instances/{{NAME_DP}}\"\n                    }\n                ]\n            }\n        }\n    }\n}",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"devportal\",\n        \"displayName\": \"Sports APIs dev portal\"\n    },\n    \"desiredState\": {\n        \"ingress\": {\n            \"uris\": {\n                \"http://{{URI_DP}}\": {}\n            },\n            \"placement\": {\n                \"instanceRefs\": [\n                    {\n                        \"ref\": \"/infrastructure/locations/unspecified/instances/{{NAME_DP}}\"\n                    }\n                ]\n            }\n        }\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
