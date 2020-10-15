@@ -74,9 +74,7 @@
 							"        if(responseJson.items.length >= 2){",
 							"            console.log(\"Current setup has more than 2 data plane instances.\");",
 							"            pm.environment.set(\"NAME_GW\", responseJson.items[0].metadata.name);",
-							"            pm.environment.set(\"ADDR_GW\", responseJson.items[0].currentStatus.legacySystemMetadata.network.interfaces[1].ipv4.address);",
 							"            pm.environment.set(\"NAME_DP\", responseJson.items[1].metadata.name);",
-							"            pm.environment.set(\"ADDR_DP\", responseJson.items[1].currentStatus.legacySystemMetadata.network.interfaces[1].ipv4.address);",
 							"            console.log(\"NOTICE: Using \"+ pm.environment.get(\"NAME_DP\") + \" as DEV Portal.\");",
 							"            postman.setNextRequest(\"Create_Environment\");",
 							"            return true;",
@@ -380,7 +378,6 @@
 							"        console.log(\"Gateway created successfully.\");",
 							"        postman.setNextRequest(\"Create_Devportal_Gateway\");",
 							"        pm.environment.unset(\"NAME_GW\");",
-							"        pm.environment.unset(\"ADDR_GW\");",
 							"        return true;",
 							"    }",
 							"});"
@@ -442,7 +439,6 @@
 							"        console.log(\"Devportal gateway created successfully.\");",
 							"        postman.setNextRequest(\"Create_Register_API_definition\");",
 							"        pm.environment.unset(\"NAME_DP\");",
-							"        pm.environment.unset(\"ADDR_DP\");",
 							"        return true;",
 							"    }",
 							"});"
