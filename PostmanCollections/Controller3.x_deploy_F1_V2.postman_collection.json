@@ -224,7 +224,7 @@
 							"    var status = pm.response.code",
 							"    if(status == 200 || status == 201 || status == 202){",
 							"        console.log(\"F1 V2 component created successfully.\");",
-							"        postman.setNextRequest(null);",
+							"        postman.setNextRequest(\"Update_DevPortal\");",
 							"        return true;",
 							"    }",
 							"    else{",
@@ -266,6 +266,72 @@
 						"sports-results",
 						"components",
 						"f1-backend-v2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_DevPortal",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "688f63cf-464d-41bd-8356-843aea5676b8",
+						"exec": [
+							"console.log(\"NOTICE: Updating Sports DevPortal\")"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5911f704-3f3e-4061-94ae-8be398ac1f71",
+						"exec": [
+							"pm.test(\"Check if DevPortal got updated\", function(){",
+							"    var status = pm.response.code",
+							"    if(status == 200 || status == 201 || status == 202){",
+							"        console.log(\"DevPortal updated successfully.\");",
+							"        postman.setNextRequest(null);",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"DevPortal updation failed.\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"devportal\",\n        \"displayName\": \"Sports Developers' Portal\",\n        \"tags\": [],\n        \"kind\": \"devportal\"\n    },\n    \"desiredState\": {\n        \"ingress\": {\n            \"gatewayRefs\": [\n                {\n                    \"ref\": \"/services/environments/prod/gateways/devportal\"\n                }\n            ]\n        },\n        \"devPortalTheme\": {\n            \"customConfig\": {\n                \"fonts\": {\n                    \"assignments\": {\n                        \"headings\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"body\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Fira+Sans\"\n                        },\n                        \"code\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"IBM+Plex+Mono\"\n                        },\n                        \"cta\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"special\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        }\n                    }\n                },\n                \"primary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#3b43be\",\n                        \"fill\": \"#ffffff\",\n                        \"ink\": \"#171d21\"\n                    }\n                },\n                \"secondary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#ffffff\",\n                        \"fill\": \"#f7f8fa\",\n                        \"ink\": \"#2c3039\",\n                        \"gray\": \"#272938\"\n                    }\n                }\n            },\n            \"brandName\": \"Sports Data Developer Portal\",\n            \"logo\": \"data:image/png;base64,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\",\n            \"favicon\": \"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7imr48L3RleHQ+PC9zdmc+\"\n        },\n        \"publishedApiRefs\": [\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/register-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/login-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/profile-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/baseball-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/golf-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/tennis-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/f1-v1-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/f1-v2-prod\"\n            }\n        ],\n        \"devPortalType\": \"private\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/devportals/devportal",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"prod",
+						"devportals",
+						"devportal"
 					]
 				}
 			},
