@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "42d16ca1-823f-4261-900e-39c68dee12d0",
+		"_postman_id": "a6312fa2-5ec5-4fc6-ac08-1f01e51c1a5f",
 		"name": "1_Controller3.x_demo_cleanup",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,14 +11,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4d8c3ff9-3d62-4bd0-a94c-b53261342001",
+						"id": "c8593ce1-c802-4ed2-b8af-e4cd057d8c54",
 						"exec": [
 							"pm.test(\"Login status\", function(){",
 							"    var status = pm.response.code;",
 							"    if(status == 204){",
 							"        console.log(\"Login was successful. Moving on to deletion steps.\");",
 							"        pm.environment.set(\"TEMP_ITR\",0);",
-							"        postman.setNextRequest(\"Get_PublishedAPI_List_For_Services\");",
+							"        postman.setNextRequest(\"Get_Env_List\");",
 							"        return true;",
 							"    }",
 							"    else {",
@@ -61,1069 +61,12 @@
 			"response": []
 		},
 		{
-			"name": "Get_PublishedAPI_List_For_Services",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1495167f-0d86-4876-8ca0-b8ec8b629223",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "1f662b6c-1f14-4f64-af70-62dd55159248",
-						"exec": [
-							"pm.test(\"Check if any Published APIs are present within Service Application\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var publishedAPIs = new Array();",
-							"        //Get all the publishedAPIs and store in a variable",
-							"        if(responseJson.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.length; i++){",
-							"                publishedAPIs.push(responseJson[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"publishedAPIs within Service Application marked for deletion: [\" + publishedAPIs + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", publishedAPIs.toString());",
-							"",
-							"            //Move to Delete_PlublishedAPI_For_Services call",
-							"            postman.setNextRequest(\"Delete_PublishedAPI_For_Services\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion as no Published API present to be deleted within Services application.",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            console.log(\"No Published API present within Services application to delete.\");",
-							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
-							"        }  ",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        console.error(\"Get Published API call failed for Service application. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get Published API call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/published-apis",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"published-apis"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_PublishedAPI_For_Services",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "fed3a4e2-6379-4efa-a9c3-3ae92f2ca0b3",
-						"exec": [
-							"const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", publishedAPIs[itr]);",
-							"console.log(\"NOTICE: Deleting Published API: \"+publishedAPIs[itr]);",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "2b7f1d87-2786-43d6-a816-1b53d535baf9",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"",
-							"pm.test(\"Check if Publish API deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"    if(status == 202 || status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < publishedAPIs.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_PublishedAPI_For_Services\");  ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Services\");",
-							"        }  ",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        pm.environment.set(\"TEMP_ITR\", 0);",
-							"        pm.environment.unset(\"TEMP_VARIABLE\");",
-							"        pm.environment.unset(\"TEMP_LIST\");",
-							"        sleep(sleep_time);",
-							"        postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
-							"        return false;",
-							"    }",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/published-apis/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"published-apis",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_PublishedAPI_List_For_Sports",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "c01e50fb-3370-4ff3-84c3-595dde7dad36",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "4e88c810-31a3-4f44-ae82-5ec6425e7fe2",
-						"exec": [
-							"pm.test(\"Check if any Published APIs are present within Sports Application\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var publishedAPIs = new Array();",
-							"        //Get all the publishedAPIs and store in a variable",
-							"        if(responseJson.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.length; i++){",
-							"                publishedAPIs.push(responseJson[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"publishedAPIs within Sports Application marked for deletion: [\" + publishedAPIs + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", publishedAPIs.toString());",
-							"",
-							"            //Move to Delete_PlublishedAPI_For_Sports call",
-							"            postman.setNextRequest(\"Delete_PublishedAPI_For_Sports\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion as no Published API present to be deleted within Sports application.",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            console.log(\"No Published API present within Sports application to delete.\");",
-							"            postman.setNextRequest(\"Get_API_Definition_List\");",
-							"        }  ",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        console.error(\"Get Published API call failed for Sports application. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get Published API call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/sports-results/published-apis",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"sports-results",
-						"published-apis"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_PublishedAPI_For_Sports",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "623cd87a-5ac4-4b28-820d-b2dbdc2f8ff9",
-						"exec": [
-							"const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", publishedAPIs[itr]);",
-							"console.log(\"NOTICE: Deleting Published API: \"+publishedAPIs[itr]);",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "c9627a51-253c-4c02-a04e-b46890058ae0",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"",
-							"pm.test(\"Check if Publish API deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"    if(status == 202 || status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < publishedAPIs.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_PublishedAPI_For_Sports\");    ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        pm.environment.set(\"TEMP_ITR\", 0);",
-							"        pm.environment.unset(\"TEMP_VARIABLE\");",
-							"        pm.environment.unset(\"TEMP_LIST\");",
-							"        sleep(sleep_time);",
-							"        postman.setNextRequest(\"Get_API_Definition_List\");",
-							"        return false;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/sports-results/published-apis/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"sports-results",
-						"published-apis",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_API_Definition_List",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "ac7ddf84-716f-470f-a4aa-9e9d4494399e",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "5d195b4d-4afd-4c1c-8fc5-28b104533041",
-						"exec": [
-							"pm.test(\"Check if any API Definitions are present\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var apiDefinitions = new Array();",
-							"        //Get all the API Definitions and store in a variable",
-							"        if(responseJson.items.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.items.length; i++){",
-							"                apiDefinitions.push(responseJson.items[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"API Definitions marked for deletion: [\" + apiDefinitions +\"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", apiDefinitions.toString());",
-							"",
-							"            //Move to Delete_API_Definition call",
-							"            postman.setNextRequest(\"Delete_API_Definition\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion if there are no API Definitions present.",
-							"            console.log(\"No API Definitions present to delete.\");",
-							"            postman.setNextRequest(\"Get_Devportal_List\");",
-							"        }  ",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        console.error(\"Get API Definitions call failed. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get API Definitions call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"api-definitions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_API_Definition",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0a58242e-8134-416c-bdd3-7852a1485cd2",
-						"exec": [
-							"pm.test(\"Check if API definition deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const apiDefinitions = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < apiDefinitions.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_API_Definition\");    ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            postman.setNextRequest(\"Get_Devportal_List\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(\"Get_Devportal_List\");",
-							"        return false;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "ee60d6cf-cdac-49f0-9fca-0dfc6612f458",
-						"exec": [
-							"const apiDefinitions = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", apiDefinitions[itr]);",
-							"console.log(\"NOTICE: Deleting API Definition: \" + apiDefinitions[itr]);",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"api-definitions",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_Devportal_List",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "eab7830b-3b9e-4759-b3f9-85ffb1befe66",
-						"exec": [
-							"pm.test(\"Check if any DevPortals are present\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var devportals = new Array();",
-							"        //Get all the Devportals and store in a variable",
-							"        if(responseJson.items.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.items.length; i++){",
-							"                devportals.push(responseJson.items[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"Devportals marked for deletion: [\" + devportals + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", devportals.toString());",
-							"",
-							"            //Move to Delete_Devportals call",
-							"            postman.setNextRequest(\"Delete_Devportals\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion if there are no Devportals to be deleted.",
-							"            console.log(\"No Devportal present to delete.\");",
-							"            postman.setNextRequest(\"Get_Gateway_List\");",
-							"        } ",
-							"        return true; ",
-							"    }",
-							"    else{",
-							"        console.error(\"Get DevPortal List call failed. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get DevPortal List call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8253bf68-553c-4451-a4bc-2c5a16b998a0",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/devportals",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"devportals"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_Devportals",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "d97e09be-d0a4-486a-8526-e13ca063e653",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"pm.test(\"Check if DevPortal deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 202 || status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"        const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < devportals.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Delete_Devportals\");   ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Get_Gateway_List\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(\"Get_Gateway_List\");",
-							"        return false;",
-							"    }",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "d5b3d485-0b72-4db5-a8f8-0470775e0677",
-						"exec": [
-							"const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", devportals[itr]);",
-							"console.log(\"NOTICE: Deleting DevPortal: \" + devportals[itr]);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/devportals/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"devportals",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_Gateway_List",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "69e1fb3f-3a11-474d-b6f8-f4427c9391c7",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "7dcb0b1b-b437-4124-8b84-0e5059b72ae3",
-						"exec": [
-							"pm.test(\"Check if any Gateways are present\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var gateways = new Array();",
-							"        //Get all the Gateways and store in a variable",
-							"        if(responseJson.items.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.items.length; i++){",
-							"                gateways.push(responseJson.items[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"Gateways marked for deletion: [\" + gateways + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", gateways.toString());",
-							"",
-							"            //Move to Delete_Gateways call",
-							"            postman.setNextRequest(\"Delete_Gateways\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion if there are no Gateways to be deleted.",
-							"            console.log(\"No Gateway present to delete.\");",
-							"            postman.setNextRequest(\"Get_Apps_List\");",
-							"        } ",
-							"        return true; ",
-							"    }",
-							"    else{",
-							"        console.error(\"Get Gateway List call failed. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get Gateway List call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/gateways",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"gateways"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_Gateways",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "69e1fb3f-3a11-474d-b6f8-f4427c9391c7",
-						"exec": [
-							"const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", gateways[itr]);",
-							"console.log(\"NOTICE: Deleting gateway: \"+gateways[itr]);"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "7dcb0b1b-b437-4124-8b84-0e5059b72ae3",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"pm.test(\"Check if Gateway deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 202 || status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"        const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < gateways.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Delete_Gateways\");    ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(sleep_time);",
-							"            postman.setNextRequest(\"Get_Gateway_List\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(\"Get_Apps_List\");",
-							"        return false;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/gateways/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"gateways",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_Apps_List",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a773e7a4-18d2-447e-9970-eb91fea6588e",
-						"exec": [
-							"pm.test(\"Check if any applications are present\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var apps = new Array();",
-							"        //Get all the Apps and store in a variable",
-							"        if(responseJson.items.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.items.length; i++){",
-							"                apps.push(responseJson.items[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"Applications marked for deletion: [\" + apps + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", apps.toString());",
-							"",
-							"            //Move to Delete_Apps call",
-							"            postman.setNextRequest(\"Delete_Apps\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion if there are no Applications to be deleted.",
-							"            console.log(\"No Application present to delete.\");",
-							"            postman.setNextRequest(\"Get_Env_List\");",
-							"        }",
-							"        return true;  ",
-							"    }",
-							"    else{",
-							"        console.error(\"Get Application List call failed. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get Application List call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_Apps",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "aca21efa-50a6-4143-9d54-3df660b84b72",
-						"exec": [
-							"const apps = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", apps[itr]);",
-							"console.log(\"NOTICE: Deleting Application: \"+apps[itr]);"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "e77c46c2-9955-48af-9a65-97527381b62c",
-						"exec": [
-							"pm.test(\"Check if Application deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 202 || status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const apps = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < apps.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_Apps\");   ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            postman.setNextRequest(\"Get_Certificate_List\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(\"Get_Certificate_List\");",
-							"        return false;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get_Certificate_List",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "25dee754-d181-44b6-98c9-f3f5fbc2d91f",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "d9371397-999b-4ab8-ace0-f09d09195705",
-						"exec": [
-							"pm.test(\"Check if any Certificates are present\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200){",
-							"        const responseJson = pm.response.json();",
-							"        var certificates = new Array();",
-							"        //Get all the certificates and store in a variable",
-							"        if(responseJson.items.length > 0){",
-							"",
-							"            for(i=0; i< responseJson.items.length; i++){",
-							"                certificates.push(responseJson.items[i].metadata.name);",
-							"            }",
-							"",
-							"            console.log(\"certificates marked for deletion: [\" + certificates +\"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", certificates.toString());",
-							"",
-							"            //Move to Delete_Certificates call",
-							"            postman.setNextRequest(\"Delete_Certificates\");",
-							"        } ",
-							"        else{",
-							"            //Skip deletion if there are no certificates to be deleted.",
-							"            console.log(\"No certificate present to delete.\");",
-							"            postman.setNextRequest(\"Get_Apps_List\");",
-							"        } ",
-							"        return true; ",
-							"    }",
-							"    else{",
-							"        console.error(\"Get Certificates call failed. Exiting!!!\");",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Get Certificates call failed. Exiting!!!\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/certs",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"certs"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete_Certificates",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "4b21414c-c278-41f7-852a-80ae5ed2a986",
-						"exec": [
-							"const certificates = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", certificates[itr]);",
-							"console.log(\"NOTICE: Deleting certificate: \"+certificates[itr]);"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "05787ee8-6431-462d-8177-61fe13c6b207",
-						"exec": [
-							"pm.test(\"Check if Certificates deletion was successful\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 204){",
-							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const certificates = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < certificates.length - 1){",
-							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_Certificates\");   ",
-							"        }",
-							"        else{",
-							"            pm.environment.set(\"TEMP_ITR\", 0);",
-							"            pm.environment.unset(\"TEMP_VARIABLE\");",
-							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            postman.setNextRequest(\"Get_Env_List\");",
-							"        }",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(\"Get_Env_List\");",
-							"        return false;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/certs/{{TEMP_VARIABLE}}",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"certs",
-						"{{TEMP_VARIABLE}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get_Env_List",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "71d81bf9-f7a9-4c76-94ed-d94321187642",
+						"id": "517d538d-850c-49b3-9def-e867fef933ee",
 						"exec": [
 							"pm.test(\"Check if any environments are present\", function(){",
 							"    var status = pm.response.code;",
@@ -1137,11 +80,14 @@
 							"                envs.push(responseJson.items[i].metadata.name);",
 							"            }",
 							"",
-							"            console.log(\"Environments marked for deletion: [\" + envs + \"]\");",
-							"            pm.environment.set(\"TEMP_LIST\", envs.toString());",
+							"            //Store all environments in a list and perform cleanup in sequence",
+							"            pm.environment.set(\"ENV_ITR\", Number(0));",
+							"            pm.environment.set(\"ENV_CURRENT\", envs[0]);",
+							"            pm.environment.set(\"ENV_LIST\", envs.toString());",
 							"",
+							"            console.log(\"Environments present in controller: [\" + envs + \"]\");",
 							"            //Move to Delete_Envs call",
-							"            postman.setNextRequest(\"Delete_Envs\");",
+							"            postman.setNextRequest(\"Get_Apps_List\");",
 							"        } ",
 							"        else{",
 							"            //Skip deletion if there are no Environments to be deleted.",
@@ -1181,17 +127,82 @@
 			"response": []
 		},
 		{
-			"name": "Delete_Envs",
+			"name": "Get_Apps_List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eae813c3-8d37-4596-9486-586b8eafc3a5",
+						"exec": [
+							"pm.test(\"Check if any applications are present\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var apps = new Array();",
+							"        //Get all the Apps and store in a variable",
+							"        if(responseJson.items.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                apps.push(responseJson.items[i].metadata.name);",
+							"            }",
+							"",
+							"            //Store all Apps for the current environment in a list and perform cleanup in sequence",
+							"            pm.environment.set(\"APP_ITR\", Number(0));",
+							"            pm.environment.set(\"APP_CURRENT\", apps[0]);",
+							"            pm.environment.set(\"APP_LIST\", apps.toString());",
+							"",
+							"            console.log(\"Applications present in current environment: [\" + apps + \"]\");",
+							"            //Move to next call",
+							"            postman.setNextRequest(\"Get_PublishedAPI_List\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion if there are no Applications to be deleted.",
+							"            console.log(\"No Application present to delete.\");",
+							"            postman.setNextRequest(\"Get_Env_List\");",
+							"        }",
+							"        return true;  ",
+							"    }",
+							"    else{",
+							"        console.error(\"Get Application List call failed. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get Application List call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/apps",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"apps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_PublishedAPI_List",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "044e8dea-231e-41fc-9187-1f6e32edc5ab",
+						"id": "f9c051da-47dd-422b-9cc2-949c1152fd36",
 						"exec": [
-							"const envs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"let itr = pm.environment.get(\"TEMP_ITR\");",
-							"pm.environment.set(\"TEMP_VARIABLE\", envs[itr]);",
-							"console.log(\"NOTICE: Deleting Environment: \"+envs[itr]);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1199,27 +210,197 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0dbce20c-ed0b-4fac-921c-32521ab9b4c2",
+						"id": "5edbeca4-ea24-42fd-850e-1b978123ed5b",
 						"exec": [
-							"pm.test(\"Check if environment deletion was successful\", function(){",
+							"pm.test(\"Check if any Published APIs are present within current Application\", function(){",
 							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var publishedAPIs = new Array();",
+							"        //Get all the publishedAPIs and store in a variable",
+							"        if(responseJson.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.length; i++){",
+							"                publishedAPIs.push(responseJson[i].metadata.name);",
+							"            }",
+							"",
+							"            console.log(\"publishedAPIs within current application marked for deletion: [\" + publishedAPIs + \"]\");",
+							"            pm.environment.set(\"TEMP_LIST\", publishedAPIs.toString());",
+							"",
+							"            //Move to Delete_PlublishedAPI call",
+							"            postman.setNextRequest(\"Delete_PublishedAPI\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion as no Published API present to be deleted within current application.",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
+							"            console.log(\"No Published API present within current application to delete.\");",
+							"            postman.setNextRequest(\"Delete_App\");",
+							"        }  ",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        console.error(\"Get Published API call failed for current application. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get Published API call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/apps/{{APP_CURRENT}}/published-apis",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"apps",
+						"{{APP_CURRENT}}",
+						"published-apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_PublishedAPI",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9a1d98a2-2097-47a6-a8fa-3d9c9ae2e6eb",
+						"exec": [
+							"const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"let itr = pm.environment.get(\"TEMP_ITR\");",
+							"pm.environment.set(\"TEMP_VARIABLE\", publishedAPIs[itr]);",
+							"console.log(\"NOTICE: Deleting Published API: \"+publishedAPIs[itr]);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e7c3919a-d903-4b52-bd26-d1c48e03b607",
+						"exec": [
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
+							"}",
+							"",
+							"pm.test(\"Check if Publish API deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
 							"    if(status == 202 || status == 204){",
 							"        let itr = pm.environment.get(\"TEMP_ITR\");",
-							"        const envs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
-							"        if(Number(itr) < envs.length - 1){",
+							"        ",
+							"        const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"        if(Number(itr) < publishedAPIs.length - 1){",
 							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            postman.setNextRequest(\"Delete_Envs\");   ",
+							"            postman.setNextRequest(\"Delete_PublishedAPI\");  ",
 							"        }",
 							"        else{",
 							"            pm.environment.set(\"TEMP_ITR\", 0);",
 							"            pm.environment.unset(\"TEMP_VARIABLE\");",
 							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            postman.setNextRequest(null);",
+							"            sleep(sleep_time);",
+							"            postman.setNextRequest(\"Get_PublishedAPI_List\");",
+							"        }  ",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        pm.environment.set(\"TEMP_ITR\", 0);",
+							"        pm.environment.unset(\"TEMP_VARIABLE\");",
+							"        pm.environment.unset(\"TEMP_LIST\");",
+							"        sleep(sleep_time);",
+							"        postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
+							"        return false;",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/apps/{{APP_CURRENT}}/published-apis/{{TEMP_VARIABLE}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"apps",
+						"{{APP_CURRENT}}",
+						"published-apis",
+						"{{TEMP_VARIABLE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_App",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8f582f9c-2e5b-4127-b0ec-8ed5b735bb14",
+						"exec": [
+							"var app = pm.environment.get(\"APP_CURRENT\");",
+							"console.log(\"NOTICE: Deleting Application: \"+app);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f8343bf-ea0c-4934-9841-0d3a36d555d8",
+						"exec": [
+							"pm.test(\"Check if Application deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 202 || status == 204){",
+							"        let itr = pm.environment.get(\"APP_ITR\");",
+							"        const apps = pm.environment.get(\"APP_LIST\").split(\",\");",
+							"        if(Number(itr) < apps.length - 1){",
+							"            var nextAppIndex = Number(itr) + 1;",
+							"            pm.environment.set(\"APP_ITR\", nextAppIndex);",
+							"            pm.environment.set(\"APP_CURRENT\", apps[nextAppIndex])",
+							"",
+							"            postman.setNextRequest(\"Get_PublishedAPI_List\");   ",
+							"        }",
+							"        else{",
+							"            pm.environment.unset(\"APP_CURRENT\");",
+							"            pm.environment.unset(\"APP_LIST\");",
+							"            pm.environment.unset(\"APP_ITR\");",
+							"            postman.setNextRequest(\"Get_Devportal_List\");",
 							"        }",
 							"        return true;",
 							"    }",
-							"    else {",
-							"        postman.setNextRequest(null);",
+							"    else{",
+							"        postman.setNextRequest(\"Get_Devportal_List\");",
 							"        return false;",
 							"    }",
 							"});"
@@ -1232,7 +413,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{TEMP_VARIABLE}}",
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/apps/{{APP_CURRENT}}",
 					"protocol": "https",
 					"host": [
 						"{{CTRL_HOST}}"
@@ -1242,6 +423,670 @@
 						"v1",
 						"services",
 						"environments",
+						"{{ENV_CURRENT}}",
+						"apps",
+						"{{APP_CURRENT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Devportal_List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9aef6e70-5a53-4284-bd6b-945f95c9de86",
+						"exec": [
+							"pm.test(\"Check if any DevPortals are present for current environment\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var devportals = new Array();",
+							"        //Get all the Devportals and store in a variable",
+							"        if(responseJson.items.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                devportals.push(responseJson.items[i].metadata.name);",
+							"            }",
+							"",
+							"            console.log(\"Devportals marked for deletion: [\" + devportals + \"]\");",
+							"            pm.environment.set(\"TEMP_LIST\", devportals.toString());",
+							"",
+							"            //Move to Delete_Devportals call",
+							"            postman.setNextRequest(\"Delete_Devportals\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion if there are no Devportals to be deleted.",
+							"            console.log(\"No Devportal present to delete.\");",
+							"            postman.setNextRequest(\"Get_Gateway_List\");",
+							"        } ",
+							"        return true; ",
+							"    }",
+							"    else{",
+							"        console.error(\"Get DevPortal List call failed. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get DevPortal List call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3fddfd39-c0a4-47de-a455-dd2a60b26315",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/devportals",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"devportals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Devportals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d32f8b76-f0db-4e5a-aa74-b8fed6641314",
+						"exec": [
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
+							"}",
+							"pm.test(\"Check if DevPortal deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 202 || status == 204){",
+							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
+							"        const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"        if(Number(itr) < devportals.length - 1){",
+							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
+							"            sleep(sleep_time);",
+							"            postman.setNextRequest(\"Delete_Devportals\");   ",
+							"        }",
+							"        else{",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
+							"            sleep(sleep_time);",
+							"            postman.setNextRequest(\"Get_Gateway_List\");",
+							"        }",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(\"Get_Gateway_List\");",
+							"        return false;",
+							"    }",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2fcbf0bc-c663-4655-b134-9e5c2b39050f",
+						"exec": [
+							"const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"let itr = pm.environment.get(\"TEMP_ITR\");",
+							"pm.environment.set(\"TEMP_VARIABLE\", devportals[itr]);",
+							"console.log(\"NOTICE: Deleting DevPortal: \" + devportals[itr]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/devportals/{{TEMP_VARIABLE}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"devportals",
+						"{{TEMP_VARIABLE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Gateway_List",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4138b075-7518-48f9-be01-92d431180ac9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e2400ec-d131-496e-8446-51ffd783c8c7",
+						"exec": [
+							"pm.test(\"Check if any Gateways are present\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var gateways = new Array();",
+							"        //Get all the Gateways and store in a variable",
+							"        if(responseJson.items.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                gateways.push(responseJson.items[i].metadata.name);",
+							"            }",
+							"",
+							"            console.log(\"Gateways marked for deletion: [\" + gateways + \"]\");",
+							"            pm.environment.set(\"TEMP_LIST\", gateways.toString());",
+							"",
+							"            //Move to Delete_Gateways call",
+							"            postman.setNextRequest(\"Delete_Gateways\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion if there are no Gateways to be deleted.",
+							"            console.log(\"No Gateway present to delete.\");",
+							"            postman.setNextRequest(\"Get_Certificate_List\");",
+							"        } ",
+							"        return true; ",
+							"    }",
+							"    else{",
+							"        console.error(\"Get Gateway List call failed. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get Gateway List call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/gateways",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"gateways"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Gateways",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bfa193bd-3956-4bec-87aa-cb920d1f01ed",
+						"exec": [
+							"const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"let itr = pm.environment.get(\"TEMP_ITR\");",
+							"pm.environment.set(\"TEMP_VARIABLE\", gateways[itr]);",
+							"console.log(\"NOTICE: Deleting gateway: \"+gateways[itr]);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "00d272ee-f96f-4b03-b995-e7931c3b8d38",
+						"exec": [
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
+							"}",
+							"pm.test(\"Check if Gateway deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 202 || status == 204){",
+							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
+							"        const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"        if(Number(itr) < gateways.length - 1){",
+							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
+							"            sleep(sleep_time);",
+							"            postman.setNextRequest(\"Delete_Gateways\");    ",
+							"        }",
+							"        else{",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
+							"            sleep(sleep_time);",
+							"            postman.setNextRequest(\"Get_Gateway_List\");",
+							"        }",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(\"Get_Certificate_List\");",
+							"        return false;",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/gateways/{{TEMP_VARIABLE}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"gateways",
+						"{{TEMP_VARIABLE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Certificate_List",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "32956bc9-2551-4433-ab8d-766bc836b850",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "47370d83-97d3-48ec-b0b1-a2b6af8830b7",
+						"exec": [
+							"pm.test(\"Check if any Certificates are present\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var certificates = new Array();",
+							"        //Get all the certificates and store in a variable",
+							"        if(responseJson.items.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                certificates.push(responseJson.items[i].metadata.name);",
+							"            }",
+							"",
+							"            console.log(\"certificates marked for deletion: [\" + certificates +\"]\");",
+							"            pm.environment.set(\"TEMP_LIST\", certificates.toString());",
+							"",
+							"            //Move to Delete_Certificates call",
+							"            postman.setNextRequest(\"Delete_Certificates\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion if there are no certificates to be deleted.",
+							"            console.log(\"No certificate present to delete.\");",
+							"            postman.setNextRequest(\"Delete_Env\");",
+							"        } ",
+							"        return true; ",
+							"    }",
+							"    else{",
+							"        console.error(\"Get Certificates call failed. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get Certificates call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/certs",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"certs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Certificates",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "65b8d1ea-71f2-461e-b4a4-a2e3fd030814",
+						"exec": [
+							"const certificates = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"let itr = pm.environment.get(\"TEMP_ITR\");",
+							"pm.environment.set(\"TEMP_VARIABLE\", certificates[itr]);",
+							"console.log(\"NOTICE: Deleting certificate: \"+certificates[itr]);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b9e9c69-288d-40d6-bebe-00fb6a13609d",
+						"exec": [
+							"pm.test(\"Check if Certificates deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 204){",
+							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const certificates = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"        if(Number(itr) < certificates.length - 1){",
+							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
+							"            postman.setNextRequest(\"Delete_Certificates\");   ",
+							"        }",
+							"        else{",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
+							"            postman.setNextRequest(\"Delete_Env\");",
+							"        }",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(\"Delete_Env\");",
+							"        return false;",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}/certs/{{TEMP_VARIABLE}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}",
+						"certs",
+						"{{TEMP_VARIABLE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Env",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8d37beec-76a9-471f-9b1c-a49240ce7bde",
+						"exec": [
+							"var env = pm.environment.get(\"ENV_CURRENT\");",
+							"console.log(\"NOTICE: Deleting Environment: \"+env);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c2f7713-3cf7-4224-8fb7-93bb54e7a0f5",
+						"exec": [
+							"pm.test(\"Check if environment deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 202 || status == 204){",
+							"        let itr = pm.environment.get(\"ENV_ITR\");",
+							"        const envs = pm.environment.get(\"ENV_LIST\").split(\",\");",
+							"        if(Number(itr) < envs.length - 1){",
+							"            var nextEnvIndex = Number(itr) + 1;",
+							"",
+							"            pm.environment.set(\"ENV_ITR\", Number(itr) + 1);",
+							"            pm.environment.set(\"ENV_CURRENT\", envs[nextEnvIndex])",
+							"            postman.setNextRequest(\"Get_Apps_List\");   ",
+							"        }",
+							"        else{",
+							"            pm.environment.unset(\"ENV_CURRENT\");",
+							"            pm.environment.unset(\"ENV_LIST\");",
+							"            pm.environment.unset(\"ENV_ITR\");",
+							"            postman.setNextRequest(\"Get_API_Definition_List\");",
+							"        }",
+							"        return true;",
+							"    }",
+							"    else {",
+							"        postman.setNextRequest(\"Get_API_Definition_List\");",
+							"        return false;",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/{{ENV_CURRENT}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"environments",
+						"{{ENV_CURRENT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_API_Definition_List",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2f104380-1f40-4f54-898e-16b092e5dd86",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5a7462b-5eee-4acb-aec7-143b907ced54",
+						"exec": [
+							"pm.test(\"Check if any API Definitions are present\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 200){",
+							"        const responseJson = pm.response.json();",
+							"        var apiDefinitions = new Array();",
+							"        //Get all the API Definitions and store in a variable",
+							"        if(responseJson.items.length > 0){",
+							"",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                apiDefinitions.push(responseJson.items[i].metadata.name);",
+							"            }",
+							"",
+							"            console.log(\"API Definitions marked for deletion: [\" + apiDefinitions +\"]\");",
+							"            pm.environment.set(\"TEMP_LIST\", apiDefinitions.toString());",
+							"",
+							"            //Move to Delete_API_Definition call",
+							"            postman.setNextRequest(\"Delete_API_Definition\");",
+							"        } ",
+							"        else{",
+							"            //Skip deletion if there are no API Definitions present.",
+							"            console.log(\"No API Definitions present to delete.\");",
+							"            postman.setNextRequest(null);",
+							"        }  ",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        console.error(\"Get API Definitions call failed. Exiting!!!\");",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail(\"Get API Definitions call failed. Exiting!!!\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"api-definitions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_API_Definition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa1f8cf1-c3f7-4cd0-9c0e-1e531fb013ac",
+						"exec": [
+							"pm.test(\"Check if API definition deletion was successful\", function(){",
+							"    var status = pm.response.code;",
+							"    if(status == 204){",
+							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const apiDefinitions = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"        if(Number(itr) < apiDefinitions.length - 1){",
+							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
+							"            postman.setNextRequest(\"Delete_API_Definition\");    ",
+							"        }",
+							"        else{",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
+							"            postman.setNextRequest(null);",
+							"        }",
+							"        return true;",
+							"    }",
+							"    else{",
+							"        postman.setNextRequest(null);",
+							"        return false;",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "00e6a69b-2297-4f6d-8212-e155bf03a8c4",
+						"exec": [
+							"const apiDefinitions = pm.environment.get(\"TEMP_LIST\").split(\",\");",
+							"let itr = pm.environment.get(\"TEMP_ITR\");",
+							"pm.environment.set(\"TEMP_VARIABLE\", apiDefinitions[itr]);",
+							"console.log(\"NOTICE: Deleting API Definition: \" + apiDefinitions[itr]);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/{{TEMP_VARIABLE}}",
+					"protocol": "https",
+					"host": [
+						"{{CTRL_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"api-definitions",
 						"{{TEMP_VARIABLE}}"
 					]
 				}
@@ -1253,7 +1098,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "cbc16631-96c4-4377-ad7c-a1fa3dda11f3",
+				"id": "791f865e-c951-4b6c-91ba-f17bfd48bfcc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1263,7 +1108,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e184455e-cbbc-4fb5-8a6e-ae4b6a3fb765",
+				"id": "56230d23-2fb5-4ed5-9245-adddbbff399b",
 				"type": "text/javascript",
 				"exec": [
 					""
