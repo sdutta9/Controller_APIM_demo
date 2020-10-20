@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "42d16ca1-823f-4261-900e-39c68dee12d0",
-		"name": "Controller3.x_demo_cleanup",
+		"name": "1_Controller3.x_demo_cleanup",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -98,6 +98,9 @@
 							"        } ",
 							"        else{",
 							"            //Skip deletion as no Published API present to be deleted within Services application.",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
 							"            console.log(\"No Published API present within Services application to delete.\");",
 							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
 							"        }  ",
@@ -159,15 +162,16 @@
 					"script": {
 						"id": "2b7f1d87-2786-43d6-a816-1b53d535baf9",
 						"exec": [
-							"const sleep = (milliseconds) => {",
-							"    console.log(\"sleeping for \"+ Number(milliseconds)/1000 +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, milliseconds));",
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
 							"}",
 							"",
 							"pm.test(\"Check if Publish API deletion was successful\", function(){",
 							"    var status = pm.response.code;",
 							"    if(status == 202 || status == 204){",
 							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
 							"        const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"        if(Number(itr) < publishedAPIs.length - 1){",
 							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
@@ -177,7 +181,7 @@
 							"            pm.environment.set(\"TEMP_ITR\", 0);",
 							"            pm.environment.unset(\"TEMP_VARIABLE\");",
 							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Services\");",
 							"        }  ",
 							"        return true;",
@@ -186,7 +190,7 @@
 							"        pm.environment.set(\"TEMP_ITR\", 0);",
 							"        pm.environment.unset(\"TEMP_VARIABLE\");",
 							"        pm.environment.unset(\"TEMP_LIST\");",
-							"        sleep(3000);",
+							"        sleep(sleep_time);",
 							"        postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
 							"        return false;",
 							"    }",
@@ -259,6 +263,9 @@
 							"        } ",
 							"        else{",
 							"            //Skip deletion as no Published API present to be deleted within Sports application.",
+							"            pm.environment.set(\"TEMP_ITR\", 0);",
+							"            pm.environment.unset(\"TEMP_VARIABLE\");",
+							"            pm.environment.unset(\"TEMP_LIST\");",
 							"            console.log(\"No Published API present within Sports application to delete.\");",
 							"            postman.setNextRequest(\"Get_API_Definition_List\");",
 							"        }  ",
@@ -320,15 +327,16 @@
 					"script": {
 						"id": "c9627a51-253c-4c02-a04e-b46890058ae0",
 						"exec": [
-							"const sleep = (milliseconds) => {",
-							"    console.log(\"sleeping for \"+ Number(milliseconds)/1000 +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, milliseconds));",
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
 							"}",
 							"",
 							"pm.test(\"Check if Publish API deletion was successful\", function(){",
 							"    var status = pm.response.code;",
 							"    if(status == 202 || status == 204){",
 							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
 							"        const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"        if(Number(itr) < publishedAPIs.length - 1){",
 							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
@@ -338,7 +346,7 @@
 							"            pm.environment.set(\"TEMP_ITR\", 0);",
 							"            pm.environment.unset(\"TEMP_VARIABLE\");",
 							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Get_PublishedAPI_List_For_Sports\");",
 							"        }",
 							"        return true;",
@@ -347,7 +355,7 @@
 							"        pm.environment.set(\"TEMP_ITR\", 0);",
 							"        pm.environment.unset(\"TEMP_VARIABLE\");",
 							"        pm.environment.unset(\"TEMP_LIST\");",
-							"        sleep(3000);",
+							"        sleep(sleep_time);",
 							"        postman.setNextRequest(\"Get_API_Definition_List\");",
 							"        return false;",
 							"    }",
@@ -606,25 +614,26 @@
 					"script": {
 						"id": "d97e09be-d0a4-486a-8526-e13ca063e653",
 						"exec": [
-							"const sleep = (milliseconds) => {",
-							"    console.log(\"sleeping for \"+ Number(milliseconds)/1000 +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, milliseconds));",
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
 							"}",
 							"pm.test(\"Check if DevPortal deletion was successful\", function(){",
 							"    var status = pm.response.code;",
 							"    if(status == 202 || status == 204){",
 							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
 							"        const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"        if(Number(itr) < devportals.length - 1){",
 							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Delete_Devportals\");   ",
 							"        }",
 							"        else{",
 							"            pm.environment.set(\"TEMP_ITR\", 0);",
 							"            pm.environment.unset(\"TEMP_VARIABLE\");",
 							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Get_Gateway_List\");",
 							"        }",
 							"        return true;",
@@ -772,25 +781,26 @@
 					"script": {
 						"id": "7dcb0b1b-b437-4124-8b84-0e5059b72ae3",
 						"exec": [
-							"const sleep = (milliseconds) => {",
-							"    console.log(\"sleeping for \"+ Number(milliseconds)/1000 +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, milliseconds));",
+							"const sleep = (seconds) => {",
+							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
+							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
 							"}",
 							"pm.test(\"Check if Gateway deletion was successful\", function(){",
 							"    var status = pm.response.code;",
 							"    if(status == 202 || status == 204){",
 							"        let itr = pm.environment.get(\"TEMP_ITR\");",
+							"        const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
 							"        const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"        if(Number(itr) < gateways.length - 1){",
 							"            pm.environment.set(\"TEMP_ITR\", Number(itr) + 1);",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Delete_Gateways\");    ",
 							"        }",
 							"        else{",
 							"            pm.environment.set(\"TEMP_ITR\", 0);",
 							"            pm.environment.unset(\"TEMP_VARIABLE\");",
 							"            pm.environment.unset(\"TEMP_LIST\");",
-							"            sleep(3000);",
+							"            sleep(sleep_time);",
 							"            postman.setNextRequest(\"Get_Gateway_List\");",
 							"        }",
 							"        return true;",
@@ -1237,6 +1247,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cbc16631-96c4-4377-ad7c-a1fa3dda11f3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e184455e-cbbc-4fb5-8a6e-ae4b6a3fb765",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
