@@ -136,6 +136,7 @@
 						"exec": [
 							"pm.test(\"Check if any applications are present\", function(){",
 							"    var status = pm.response.code;",
+							"    var current_env = pm.environment.get(\"ENV_CURRENT\");",
 							"    if(status == 200){",
 							"        const responseJson = pm.response.json();",
 							"        var apps = new Array();",
@@ -151,14 +152,14 @@
 							"            pm.environment.set(\"APP_CURRENT\", apps[0]);",
 							"            pm.environment.set(\"APP_LIST\", apps.toString());",
 							"",
-							"            console.log(\"Applications present in current environment: [\" + apps + \"]\");",
+							"            console.log(\"Apps present in (\"+ current_env +\") environment: [\" + apps + \"]\");",
 							"            //Move to next call",
 							"            postman.setNextRequest(\"Get_PublishedAPI_List\");",
 							"        } ",
 							"        else{",
 							"            //Skip deletion if there are no Applications to be deleted.",
 							"            console.log(\"No Application present to delete.\");",
-							"            postman.setNextRequest(\"Get_Env_List\");",
+							"            postman.setNextRequest(\"Get_Devportal_List\");",
 							"        }",
 							"        return true;  ",
 							"    }",
@@ -168,6 +169,17 @@
 							"        pm.expect.fail(\"Get Application List call failed. Exiting!!!\");",
 							"    }",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3e2875cb-b20a-401f-b118-9d9b5bbb8294",
+						"exec": [
+							"var current_env = pm.environment.get(\"ENV_CURRENT\");",
+							"console.log(\"NOTICE: Getting list of Apps in [\"+ current_env +\"] environment\");"
 						],
 						"type": "text/javascript"
 					}
