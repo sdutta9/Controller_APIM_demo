@@ -21,7 +21,6 @@ pipeline {
                 sh '''
                 set +x
                 ./Scripts/UpdateF1BackendToV2.sh $controllerUrl $username $password
-                echo "Script success: $?"
                 set -x
                 '''
             }
