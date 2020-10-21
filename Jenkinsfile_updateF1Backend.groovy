@@ -26,6 +26,14 @@ pipeline {
             }
         }
     } 
+    post {
+        always {
+            junit(
+                allowEmptyResults: true,
+                testResults: '**/newman/*.xml'
+            )
+        }
+    }
     // post {
     //     always{
     //         slackSend channel: '#apim-garage-day',
