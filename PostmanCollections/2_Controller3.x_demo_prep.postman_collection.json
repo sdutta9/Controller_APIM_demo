@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "993215ec-6a54-4191-a513-a29acc536cb5",
-		"name": "2_Controller3.x_demo_prep",
+		"_postman_id": "eaf8c9e8-561e-4208-bcb6-607bdef701e7",
+		"name": "2_Controller3.x_demo_prep_sports",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "acbc7cf2-3c5d-4a96-a3d7-1814c2c271a5",
+						"id": "129c6c35-bc75-4d8f-8d7b-77390e446b7c",
 						"exec": [
 							"pm.test(\"Login status\", function(){",
 							"    var status = pm.response.code;",
@@ -66,7 +66,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "761849f9-373f-4738-90a3-7030045e92df",
+						"id": "419e6ca8-2438-4dcb-93a5-10af17ab6f23",
 						"exec": [
 							"pm.test(\"Check if there are atleast two N+ instances\", function(){",
 							"    if(pm.response.to.have.status(200)){",
@@ -123,7 +123,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d2441b16-6114-48dd-b447-ef9ce72cb6d3",
+						"id": "ae6b1eed-7cb4-4fdf-93f7-9b074fe501ea",
 						"exec": [
 							"console.log(\"NOTICE: Creating Env/App framework\");"
 						],
@@ -133,12 +133,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "52c718c7-b572-4a99-93d3-7e818000840d",
+						"id": "9aa09a31-a1c2-46c8-942e-d15118369211",
 						"exec": [
 							"pm.test(\"Check if environment got created\", function(){",
 							"    if(pm.response.to.have.status(201)){",
 							"        console.log(\"Environment created successfully.\");",
-							"        postman.setNextRequest(\"Create_Subscriber_Service_App\");",
+							"        postman.setNextRequest(\"Create_Sports_Results_App\");",
 							"        return true;",
 							"    }",
 							"});"
@@ -176,72 +176,12 @@
 			"response": []
 		},
 		{
-			"name": "Create_Subscriber_Service_App",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "831d78c3-6b37-4957-b409-643552fbdee0",
-						"exec": [
-							"console.log(\"NOTICE: Creating Subscriber Services App\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "060ec6c0-3a9e-44d8-82a3-0c0688e8ece4",
-						"exec": [
-							"pm.test(\"Check if Subscriber Service App got created\", function(){",
-							"    if(pm.response.to.have.status(201)){",
-							"        console.log(\"Subscriber Service App created successfully.\");",
-							"        postman.setNextRequest(\"Create_Sports_Results_App\");",
-							"        return true;",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n        \"name\": \"subsvcs\",\n        \"displayName\": \"Subscriber Services 👤\"\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create_Sports_Results_App",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8ece16a9-0f16-4a05-b329-9372364a6702",
+						"id": "01b4ec8c-fa22-4731-b4f0-e865c870b754",
 						"exec": [
 							"console.log(\"NOTICE: Creating Sports Results App\");"
 						],
@@ -251,7 +191,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0c3d19e0-0e03-489e-a608-9f9b831e4f86",
+						"id": "4fd584e0-de89-4d3a-9d94-95c6e04be7ec",
 						"exec": [
 							"pm.test(\"Check if Sports Results App got created\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -301,7 +241,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "e787d57f-321e-4eca-991c-e4e6212137ad",
+						"id": "9b5c3b64-7733-4eab-86a5-8038ea210429",
 						"exec": [
 							"console.log(\"NOTICE: Creating Certs\");"
 						],
@@ -311,7 +251,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a0ac291f-b774-420e-addc-2de41aae3c2c",
+						"id": "093b0ba5-519f-492c-8e2a-a0990d7e492f",
 						"exec": [
 							"pm.test(\"Check if Certificate got added\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -361,7 +301,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6bbfb862-96d1-4535-863c-f196cb4582ab",
+						"id": "7f90f600-95f4-43e1-94e6-8ef9138105c1",
 						"exec": [
 							"console.log(\"NOTICE: Creating gateway\");"
 						],
@@ -371,7 +311,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f4509960-e40a-4bd8-9713-780487ea0fe0",
+						"id": "c38b18a3-0b54-4010-b906-0c454ef2c664",
 						"exec": [
 							"pm.test(\"Check if Gateway got created\", function(){",
 							"    if(pm.response.to.have.status(202)){",
@@ -422,7 +362,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "19885952-4e09-4b50-b279-5550c07b1625",
+						"id": "7077d245-0668-4e92-b6ae-a6479342f239",
 						"exec": [
 							"console.log(\"NOTICE: Creating devportal gateway\");"
 						],
@@ -432,12 +372,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "91ebfd49-be00-4a6e-b059-27d9a0d6a4be",
+						"id": "112a98d4-1f76-4bcf-a0d6-d29366bbfe1d",
 						"exec": [
 							"pm.test(\"Check if devportal gateway got created\", function(){",
 							"    if(pm.response.to.have.status(202)){",
 							"        console.log(\"Devportal gateway created successfully.\");",
-							"        postman.setNextRequest(\"Create_Register_API_definition\");",
+							"        postman.setNextRequest(\"Create_Baseball_API_definition\");",
 							"        // pm.environment.unset(\"NAME_DP\");",
 							"        return true;",
 							"    }",
@@ -478,651 +418,12 @@
 			"response": []
 		},
 		{
-			"name": "Create_Register_API_definition",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "63e84b5f-3435-4a29-ab1c-323597e1589f",
-						"exec": [
-							"console.log(\"NOTICE: Creating Register API definition\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "8db14935-26dc-44ff-b3df-bb9aedf29928",
-						"exec": [
-							"pm.test(\"Check if register API Definition got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200|| status == 201){",
-							"        console.log(\"Register API definition created successfully.\");",
-							"        postman.setNextRequest(\"Publish_Register_API\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Register API definition creation failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n        \"name\": \"v1\",\n        \"displayName\": \"Registration microservice\"\n    },\n    \"desiredState\": {\n        \"specs\": {\n            \"REST\": {\n                \"openapi\": \"3.0.0\",\n                \"info\": {\n                    \"version\": \"v1\",\n                    \"title\": \"Registration microservice\"\n                },\n                \"paths\": {\n                    \"/api/subscriber/register\": {\n                        \"x-controller-match-method\": \"EXACT\",\n                        \"post\": {\n                            \"description\": \"Register a new account\",\n                            \"requestBody\": {\n                                \"content\": {\n                                    \"application/json\": {\n                                        \"example\": {\n                                            \"firstName\": \"Bob\",\n                                            \"surname\": \"Monkhouse\",\n                                            \"email\": \"bob@example.com\",\n                                            \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"responses\": {\n                                \"201\": {\n                                    \"description\": \"Created\",\n                                    \"content\": {\n                                        \"application/json\": {\n                                            \"example\": {\n                                                \"subscriberId\": 20469\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        },\n                        \"get\": {\n                            \"description\": \"Register a new account\",\n                            \"requestBody\": {\n                                \"content\": {\n                                    \"application/json\": {\n                                        \"example\": {\n                                            \"firstName\": \"Bob\",\n                                            \"surname\": \"Monkhouse\",\n                                            \"email\": \"bob@example.com\",\n                                            \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"responses\": {\n                                \"201\": {\n                                    \"description\": \"Created\",\n                                    \"content\": {\n                                        \"application/json\": {\n                                            \"example\": {\n                                                \"subscriberId\": 20469\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/register/versions/v1",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"api-definitions",
-						"register",
-						"versions",
-						"v1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Publish_Register_API",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "9947ebfa-4509-4842-94b2-5fe9d902fdac",
-						"exec": [
-							"console.log(\"NOTICE: Publishing Register API\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "1a4e4258-f43c-41f5-a294-ab0e54a1231a",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"",
-							"pm.test(\"Check if register API got published\", function(){",
-							"    var status = pm.response.code;",
-							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Register API published successfully.\");",
-							"        sleep(sleep_time);",
-							"        postman.setNextRequest(\"Create_Register_Component\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Register API publishing failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"register-prod\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/register/versions/v1\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ]\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/published-apis/register-prod",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"published-apis",
-						"register-prod"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create_Register_Component",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1c4e2b34-80f5-4b64-953f-84a1af237a46",
-						"exec": [
-							"console.log(\"NOTICE: Creating Register Component\");",
-							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "332d0f0b-3b0b-4693-bc12-8001b7ba09ed",
-						"exec": [
-							"pm.test(\"Check if register component got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Register component created successfully.\");",
-							"        postman.setNextRequest(\"Create_Login_API_definition\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Register component creation failed.\");",
-							"    }",
-							"});",
-							"pm.environment.unset(\"ECHO_IP\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"register-svc\",\n    \"displayName\": \"Register service (prod)\",\n    \"description\": \"Register microservice production runtime\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"ingress\": {\n      \"uris\": {\n        \"/api/subscriber/register\": {\n          \"get\": {\n            \"description\": \"Register a new account\",\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"example\": {\n                    \"email\": \"bob@example.com\",\n                    \"firstName\": \"Bob\",\n                    \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                    \"surname\": \"Monkhouse\"\n                  }\n                }\n              }\n            },\n            \"responses\": {\n              \"201\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"subscriberId\": 20469\n                    }\n                  }\n                },\n                \"description\": \"Created\"\n              }\n            }\n          },\n          \"post\": {\n            \"description\": \"Register a new account\",\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"example\": {\n                    \"email\": \"bob@example.com\",\n                    \"firstName\": \"Bob\",\n                    \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                    \"surname\": \"Monkhouse\"\n                  }\n                }\n              }\n            },\n            \"responses\": {\n              \"201\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"subscriberId\": 20469\n                    }\n                  }\n                },\n                \"description\": \"Created\"\n              }\n            }\n          },\n          \"matchMethod\": \"EXACT\"\n        }\n      },\n      \"gatewayRefs\": [\n        {\n          \"ref\": \"/services/environments/prod/gateways/apigw\"\n        }\n      ]\n    },\n    \"backend\": {\n      \"ntlmAuthentication\": \"DISABLED\",\n      \"preserveHostHeader\": \"DISABLED\",\n      \"workloadGroups\": {\n        \"echo\": {\n          \"loadBalancingMethod\": {\n            \"type\": \"ROUND_ROBIN\"\n          },\n          \"uris\": {\n            \"http://{{ECHO_IP}}:10001\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            },\n            \"http://{{ECHO_IP}}:10002\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            }\n          }\n        }\n      }\n    },\n    \"logging\": {\n      \"errorLog\": \"DISABLED\",\n      \"accessLog\": {\n        \"state\": \"DISABLED\"\n      }\n    },\n    \"publishedApiRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/register-prod\"\n      }\n    ]\n  }\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/components/register-svc",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"components",
-						"register-svc"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create_Login_API_definition",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "06648a65-d1ea-4b5a-a826-abb83ab399ca",
-						"exec": [
-							"console.log(\"NOTICE: Creating Login API definition\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "b7ed056e-2158-4e44-ae8a-e96795439cba",
-						"exec": [
-							"pm.test(\"Check if Login API Definition got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200|| status == 201){",
-							"        console.log(\"Login API definition created successfully.\");",
-							"        postman.setNextRequest(\"Publish_Login_API\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Login API definition creation failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"v1\",\n    \"displayName\": \"Login microservice\"\n  },\n  \"desiredState\": {\n    \"specs\": {\n      \"REST\": {\n        \"openapi\": \"3.0.0\",\n        \"info\": {\n          \"version\": \"v1\",\n          \"title\": \"Login microservice\"\n        },\n        \"paths\": {\n          \"/api/subscriber/login\": {\n            \"x-controller-match-method\": \"EXACT\",\n            \"post\": {\n              \"description\": \"Login\",\n              \"requestBody\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"email\": \"bob@example.com\",\n                      \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                      \"rememberMeCookie\": true\n                    }\n                  }\n                }\n              },\n              \"parameters\": [\n                {\n                  \"name\": \"email\",\n                  \"in\": \"query\",\n                  \"required\": false,\n                  \"schema\": {\n                    \"type\": \"string\"\n                  }\n                },\n                {\n                  \"name\": \"password\",\n                  \"in\": \"query\",\n                  \"required\": false,\n                  \"schema\": {\n                    \"type\": \"string\"\n                  }\n                }\n              ],\n              \"responses\": {\n                \"201\": {\n                  \"description\": \"Logged in\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"example\": {\n                        \"sessionId\": \"458d4a90\"\n                      }\n                    }\n                  }\n                },\n                \"401\": {\n                  \"description\": \"Unauthorized\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"example\": {}\n                    }\n                  }\n                }\n              }\n            },\n            \"get\": {\n              \"description\": \"Login\",\n              \"requestBody\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"email\": \"bob@example.com\",\n                      \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                      \"rememberMeCookie\": true\n                    }\n                  }\n                }\n              },\n              \"parameters\": [\n                {\n                  \"name\": \"email\",\n                  \"in\": \"query\",\n                  \"required\": false,\n                  \"schema\": {\n                    \"type\": \"string\"\n                  }\n                },\n                {\n                  \"name\": \"password\",\n                  \"in\": \"query\",\n                  \"required\": false,\n                  \"schema\": {\n                    \"type\": \"string\"\n                  }\n                }\n              ],\n              \"responses\": {\n                \"201\": {\n                  \"description\": \"Logged in\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"example\": {\n                        \"sessionId\": \"458d4a90\"\n                      }\n                    }\n                  }\n                },\n                \"401\": {\n                  \"description\": \"Unauthorized\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"example\": {}\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/login/versions/v1",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"api-definitions",
-						"login",
-						"versions",
-						"v1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Publish_Login_API",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "37ee9ea1-fdfc-457e-8a5c-b323ba11c426",
-						"exec": [
-							"console.log(\"NOTICE: Publishing Login API\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "4715100e-660d-40cb-a2eb-2972d8e271a9",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"",
-							"pm.test(\"Check if login API got published\", function(){",
-							"    var status = pm.response.code;",
-							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Login API published successfully.\");",
-							"        sleep(sleep_time);",
-							"        postman.setNextRequest(\"Create_Login_Component\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Login API publishing failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"login-prod\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/login/versions/v1\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ]\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/published-apis/login-prod",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"published-apis",
-						"login-prod"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create_Login_Component",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "6e294028-9935-4fa3-aada-c76267dc65d3",
-						"exec": [
-							"console.log(\"NOTICE: Creating Login Component\");",
-							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "8c4852e1-ac74-401d-bfb0-e55a3f25a982",
-						"exec": [
-							"pm.test(\"Check if Login component got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Login component created successfully.\");",
-							"        postman.setNextRequest(\"Create_Profile_API_definition\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Login component creation failed.\");",
-							"    }",
-							"});",
-							"pm.environment.unset(\"ECHO_IP\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"login-svc\",\n    \"displayName\": \"Login service (prod)\",\n    \"description\": \"Login microservice production runtime\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"ingress\": {\n      \"uris\": {\n        \"/api/subscriber/login\": {\n          \"get\": {\n            \"description\": \"Login\",\n            \"parameters\": [\n              {\n                \"in\": \"query\",\n                \"name\": \"email\",\n                \"required\": false,\n                \"schema\": {\n                  \"type\": \"string\"\n                }\n              },\n              {\n                \"in\": \"query\",\n                \"name\": \"password\",\n                \"required\": false,\n                \"schema\": {\n                  \"type\": \"string\"\n                }\n              }\n            ],\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"example\": {\n                    \"email\": \"bob@example.com\",\n                    \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                    \"rememberMeCookie\": true\n                  }\n                }\n              }\n            },\n            \"responses\": {\n              \"201\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"sessionId\": \"458d4a90\"\n                    }\n                  }\n                },\n                \"description\": \"Logged in\"\n              },\n              \"401\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {}\n                  }\n                },\n                \"description\": \"Unauthorized\"\n              }\n            }\n          },\n          \"post\": {\n            \"description\": \"Login\",\n            \"parameters\": [\n              {\n                \"in\": \"query\",\n                \"name\": \"email\",\n                \"required\": false,\n                \"schema\": {\n                  \"type\": \"string\"\n                }\n              },\n              {\n                \"in\": \"query\",\n                \"name\": \"password\",\n                \"required\": false,\n                \"schema\": {\n                  \"type\": \"string\"\n                }\n              }\n            ],\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"example\": {\n                    \"email\": \"bob@example.com\",\n                    \"pwHash\": \"W6ph5Mm5Pz8GgiULbPgzG37mj9g=\",\n                    \"rememberMeCookie\": true\n                  }\n                }\n              }\n            },\n            \"responses\": {\n              \"201\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"sessionId\": \"458d4a90\"\n                    }\n                  }\n                },\n                \"description\": \"Logged in\"\n              },\n              \"401\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {}\n                  }\n                },\n                \"description\": \"Unauthorized\"\n              }\n            }\n          },\n          \"matchMethod\": \"EXACT\"\n        }\n      },\n      \"gatewayRefs\": [\n        {\n          \"ref\": \"/services/environments/prod/gateways/apigw\"\n        }\n      ]\n    },\n    \"backend\": {\n      \"ntlmAuthentication\": \"DISABLED\",\n      \"preserveHostHeader\": \"DISABLED\",\n      \"workloadGroups\": {\n        \"echo\": {\n          \"loadBalancingMethod\": {\n            \"type\": \"ROUND_ROBIN\"\n          },\n          \"uris\": {\n            \"http://{{ECHO_IP}}:10003\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            },\n            \"http://{{ECHO_IP}}:10004\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            }\n          }\n        }\n      }\n    },\n    \"logging\": {\n      \"errorLog\": \"DISABLED\",\n      \"accessLog\": {\n        \"state\": \"DISABLED\"\n      }\n    },\n    \"publishedApiRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/login-prod\"\n      }\n    ]\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/components/login-svc",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"components",
-						"login-svc"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create_Profile_API_definition",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "7f74bcca-7b6c-484e-ba36-dec9a81b5155",
-						"exec": [
-							"console.log(\"NOTICE: Creating Profile API definition\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "6a20bad9-c7ac-4dac-9589-97a10dcb6b8d",
-						"exec": [
-							"pm.test(\"Check if Profile API Definition got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200|| status == 201){",
-							"        console.log(\"Profile API definition created successfully.\");",
-							"        postman.setNextRequest(\"Publish_Profile_API\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Profile API definition creation failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"v1\",\n    \"displayName\": \"User Profile microservice\",\n    \"description\": \"\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"specs\": {\n      \"REST\": {\n        \"openapi\": \"3.0.0\",\n        \"info\": {\n          \"version\": \"v1\",\n          \"title\": \"User Profile microservice\"\n        },\n        \"paths\": {\n          \"/api/subscriber/profile/{subscriberId}\": {\n            \"x-controller-match-method\": \"EXACT\",\n            \"get\": {\n              \"description\": \"Get user profile info\",\n              \"parameters\": [\n                {\n                  \"name\": \"subscriberId\",\n                  \"in\": \"path\",\n                  \"required\": true,\n                  \"schema\": {\n                    \"type\": \"string\"\n                  }\n                }\n              ],\n              \"responses\": {\n                \"200\": {\n                  \"description\": \"OK\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"example\": {\n                        \"email\": \"bob@example.com\",\n                        \"firstName\": \"Bob\",\n                        \"surname\": \"Monkhouse\"\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/api-definitions/profile/versions/v1",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"api-definitions",
-						"profile",
-						"versions",
-						"v1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Publish_Profile_API",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "ecb8336b-8d32-45bd-965e-8b45ea231144",
-						"exec": [
-							"console.log(\"NOTICE: Publishing profile API\");"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "f9c969b3-950e-4e13-9443-31a807c4a2e1",
-						"exec": [
-							"const sleep = (seconds) => {",
-							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
-							"    return new Promise(resolve => setTimeout(resolve, Number(seconds)*1000));",
-							"}",
-							"",
-							"pm.test(\"Check if profile API got published\", function(){",
-							"    var status = pm.response.code;",
-							"    const sleep_time = pm.environment.get(\"SLEEP_TIME\");",
-							"",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Profile API published successfully.\");",
-							"        sleep(sleep_time);",
-							"        postman.setNextRequest(\"Create_Profile_Component\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Profile API publishing failed.\");",
-							"    }",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"profile-prod\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/profile/versions/v1\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ]\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/published-apis/profile-prod",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"published-apis",
-						"profile-prod"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create_Profile_Component",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "6f7f4e89-8601-43a4-94a3-649c7141bf6c",
-						"exec": [
-							"console.log(\"NOTICE: Creating Profile Component\");",
-							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "d08fd7f7-ca84-4c9f-b7d9-63140da497bd",
-						"exec": [
-							"pm.test(\"Check if Profile component got created\", function(){",
-							"    var status = pm.response.code;",
-							"    if(status == 200 || status == 201 || status == 202){",
-							"        console.log(\"Profile component created successfully.\");",
-							"        postman.setNextRequest(\"Create_Baseball_API_definition\");",
-							"        return true;",
-							"    }",
-							"    else{",
-							"        postman.setNextRequest(null);",
-							"        pm.expect.fail(\"Profile component creation failed.\");",
-							"    }",
-							"});",
-							"pm.environment.unset(\"ECHO_IP\");"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"profile-svc\",\n    \"displayName\": \"Profile service (prod)\",\n    \"description\": \"Profile microservice production runtime\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"ingress\": {\n      \"uris\": {\n        \"/api/subscriber/profile/{subscriberId}\": {\n          \"get\": {\n            \"description\": \"Get user profile info\",\n            \"parameters\": [\n              {\n                \"in\": \"path\",\n                \"name\": \"subscriberId\",\n                \"required\": true,\n                \"schema\": {\n                  \"type\": \"string\"\n                }\n              }\n            ],\n            \"responses\": {\n              \"200\": {\n                \"content\": {\n                  \"application/json\": {\n                    \"example\": {\n                      \"email\": \"bob@example.com\",\n                      \"firstName\": \"Bob\",\n                      \"surname\": \"Monkhouse\"\n                    }\n                  }\n                },\n                \"description\": \"OK\"\n              }\n            }\n          },\n          \"matchMethod\": \"EXACT\"\n        }\n      },\n      \"gatewayRefs\": [\n        {\n          \"ref\": \"/services/environments/prod/gateways/apigw\"\n        }\n      ]\n    },\n    \"backend\": {\n      \"ntlmAuthentication\": \"DISABLED\",\n      \"preserveHostHeader\": \"DISABLED\",\n      \"workloadGroups\": {\n        \"echo\": {\n          \"loadBalancingMethod\": {\n            \"type\": \"ROUND_ROBIN\"\n          },\n          \"uris\": {\n            \"http://{{ECHO_IP}}:10005\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            },\n            \"http://{{ECHO_IP}}:10006\": {\n              \"isBackup\": false,\n              \"isDown\": false,\n              \"isDrain\": false\n            }\n          }\n        }\n      }\n    },\n    \"logging\": {\n      \"errorLog\": \"DISABLED\",\n      \"accessLog\": {\n        \"state\": \"DISABLED\"\n      }\n    },\n    \"publishedApiRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/profile-prod\"\n      }\n    ]\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://{{CTRL_HOST}}/api/v1/services/environments/prod/apps/subsvcs/components/profile-svc",
-					"protocol": "https",
-					"host": [
-						"{{CTRL_HOST}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"services",
-						"environments",
-						"prod",
-						"apps",
-						"subsvcs",
-						"components",
-						"profile-svc"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create_Baseball_API_definition",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "586cafd2-5f92-41af-8388-2d014482140b",
+						"id": "5b353b46-186a-409a-bb80-869510c9229b",
 						"exec": [
 							"console.log(\"NOTICE: Creating Baseball-stats API definition\");"
 						],
@@ -1132,7 +433,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c6edabb-f6ef-4dc2-b294-67e92dd80dbb",
+						"id": "b5926bf0-5db7-4fad-a596-3b6c7ab46a4e",
 						"exec": [
 							"pm.test(\"Check if Baseball-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1188,7 +489,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5804323d-011e-49c9-b3f5-99a90af18b62",
+						"id": "7779b56f-062d-4da3-bbfd-a9fa04fe0b94",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Baseball-stats API\");"
 						],
@@ -1198,7 +499,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ce5a21a0-64ce-4019-bebb-ee1a37786e34",
+						"id": "7c232afa-8387-4f68-baca-2be6a6442ebb",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1264,7 +565,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b08bae67-524d-48fa-a316-5cad785f0107",
+						"id": "631f7923-db71-4813-9b83-e65d7a325b80",
 						"exec": [
 							"console.log(\"NOTICE: Creating Baseball Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1276,7 +577,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "344013a5-39f7-42e6-a569-1c938aba2200",
+						"id": "7f7f9d87-18cb-4a02-9d5d-d04ff58135cf",
 						"exec": [
 							"pm.test(\"Check if Baseball component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1335,7 +636,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "62037dc8-4d01-4a4b-9aa0-fd41925c9af2",
+						"id": "66f14733-83bd-4fcc-907a-b9c420da8c9d",
 						"exec": [
 							"console.log(\"NOTICE: Creating Golf-stats API definition\");"
 						],
@@ -1345,7 +646,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2dd74492-db54-477a-ae82-173e597f7997",
+						"id": "f74d79dc-34bc-4948-bc9c-54970e95330b",
 						"exec": [
 							"pm.test(\"Check if Golf-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1401,7 +702,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "da5fc651-17e8-4c2c-9404-bac51f5528f2",
+						"id": "1da9d384-25a1-4f2b-b1ab-029fc4cd9d6f",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Golf-stats API\");"
 						],
@@ -1411,7 +712,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1b174a06-cce7-438a-b127-35759c0411c0",
+						"id": "5fc4f405-b0e7-40f5-a379-1c40e2e5607f",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1477,7 +778,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "35a2b25d-3ee0-4e2f-b7b3-a372f26eca8c",
+						"id": "23f030f2-818d-4c9f-a8cd-27564fced1a6",
 						"exec": [
 							"console.log(\"NOTICE: Creating Golf Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1489,7 +790,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a2e8ffd4-1b87-4c3b-a1ee-c2fe707cb153",
+						"id": "1e150f58-32f8-4cbb-9525-0af56b1285ec",
 						"exec": [
 							"pm.test(\"Check if Golf component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1548,7 +849,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "19a43e46-e97f-412a-acf2-d962fc460dbf",
+						"id": "70b0d337-f74e-4f96-9a48-231a4fa1fb96",
 						"exec": [
 							"console.log(\"NOTICE: Creating Tennis-stats API definition\");"
 						],
@@ -1558,7 +859,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "89aee3ed-b71a-473c-a3f9-372d7a37087a",
+						"id": "5f9e45cc-1deb-4eb8-9739-cb23fc7e67de",
 						"exec": [
 							"pm.test(\"Check if Tennis-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1614,7 +915,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "085b0c39-b81c-4124-b4db-ec5de9ca7fd4",
+						"id": "65343ce8-739a-426d-9762-3af3451802f6",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Tennis-stats API\");"
 						],
@@ -1624,7 +925,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4482c566-c4c3-4b38-b6f1-fcb88c5675f3",
+						"id": "bb29cc8f-71f2-4af2-8262-665c9bdbb4c3",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1690,7 +991,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2ebb7ab6-2877-4e44-90c8-2a671082cc9e",
+						"id": "de480f12-802d-47dc-aa5a-0864df0558f7",
 						"exec": [
 							"console.log(\"NOTICE: Creating Tennis Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1702,7 +1003,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7a1c33ff-c21e-4b52-9aa4-eb7d3272958b",
+						"id": "a53032d1-6f11-4346-be6a-2f8ac284af9e",
 						"exec": [
 							"pm.test(\"Check if Tennis component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1761,7 +1062,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3786ffb3-a7cf-4d4a-9ce9-6d10b75caab7",
+						"id": "44872d55-0959-41ab-a4ee-de31c50f6bd3",
 						"exec": [
 							"console.log(\"NOTICE: Creating F1-results API definition\");"
 						],
@@ -1771,7 +1072,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "86e0ff58-54e0-4e72-b347-2013a8111d6b",
+						"id": "2dd94d15-8231-4573-aaf3-5f2b254818d2",
 						"exec": [
 							"pm.test(\"Check if F1-results API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1837,7 +1138,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "aae69654-b07a-4b16-b396-61439c67688f",
+						"id": "39ee1413-4a88-4b6a-8075-65a5c52eae74",
 						"exec": [
 							"console.log(\"NOTICE: Publishing F1-results API\");"
 						],
@@ -1847,7 +1148,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "47fef459-fff0-4a60-99c3-ac83cf89f987",
+						"id": "aeb8c4f9-7fb6-43b9-b964-dc27fda195a4",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1913,7 +1214,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d87fdafe-723c-4fae-9f2e-ce0ab8c12528",
+						"id": "5fbaec6c-aee6-46ae-a777-bc74344fa319",
 						"exec": [
 							"console.log(\"NOTICE: Creating F1 V1 Component\");",
 							""
@@ -1924,7 +1225,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "52a8a2df-d977-4685-8cd2-e2d87d6b9439",
+						"id": "1cc80c09-1f4e-45a6-80d5-4bd3af405d30",
 						"exec": [
 							"pm.test(\"Check if F1 V1 component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1982,7 +1283,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f30fa5db-d192-45fd-8a97-61e46a6b640a",
+						"id": "78599f9e-bc4b-4abd-90be-24a1bf7c08e0",
 						"exec": [
 							"console.log(\"NOTICE: Creating developer portal object\")"
 						],
@@ -1992,7 +1293,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5fe08fb0-55d6-41ec-9e8d-c3d2b6429a88",
+						"id": "70748bd1-d35c-4a72-ac5f-cdad2e24f8b8",
 						"exec": [
 							"pm.test(\"Check if DevPortal got created\", function(){",
 							"    var status = pm.response.code;",
@@ -2016,7 +1317,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n        \"name\": \"devportal\",\n        \"displayName\": \"Sports Developers' Portal\",\n        \"tags\": [],\n        \"kind\": \"devportal\"\n    },\n    \"desiredState\": {\n        \"ingress\": {\n            \"gatewayRefs\": [\n                {\n                    \"ref\": \"/services/environments/prod/gateways/devportal\"\n                }\n            ]\n        },\n        \"devPortalTheme\": {\n            \"customConfig\": {\n                \"fonts\": {\n                    \"assignments\": {\n                        \"headings\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"body\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Fira+Sans\"\n                        },\n                        \"code\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"IBM+Plex+Mono\"\n                        },\n                        \"cta\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"special\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        }\n                    }\n                },\n                \"primary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#3b43be\",\n                        \"fill\": \"#ffffff\",\n                        \"ink\": \"#171d21\"\n                    }\n                },\n                \"secondary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#ffffff\",\n                        \"fill\": \"#f7f8fa\",\n                        \"ink\": \"#2c3039\",\n                        \"gray\": \"#272938\"\n                    }\n                }\n            },\n            \"brandName\": \"Sports Data Developer Portal\",\n            \"logo\": \"data:image/png;base64,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\",\n            \"favicon\": \"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7imr48L3RleHQ+PC9zdmc+\"\n        },\n        \"publishedApiRefs\": [\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/register-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/login-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/subsvcs/published-apis/profile-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/baseball-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/golf-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/tennis-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/f1-v1-prod\"\n            }\n        ],\n        \"devPortalType\": \"private\"\n    }\n}",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"devportal\",\n        \"displayName\": \"Sports Developers' Portal\",\n        \"tags\": [],\n        \"kind\": \"devportal\"\n    },\n    \"desiredState\": {\n        \"ingress\": {\n            \"gatewayRefs\": [\n                {\n                    \"ref\": \"/services/environments/prod/gateways/devportal\"\n                }\n            ]\n        },\n        \"devPortalTheme\": {\n            \"customConfig\": {\n                \"fonts\": {\n                    \"assignments\": {\n                        \"headings\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"body\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Fira+Sans\"\n                        },\n                        \"code\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"IBM+Plex+Mono\"\n                        },\n                        \"cta\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        },\n                        \"special\": {\n                            \"kind\": \"google-web-font\",\n                            \"value\": \"Lato\"\n                        }\n                    }\n                },\n                \"primary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#3b43be\",\n                        \"fill\": \"#ffffff\",\n                        \"ink\": \"#171d21\"\n                    }\n                },\n                \"secondary\": {\n                    \"color\": {\n                        \"primary\": \"#3b43be\",\n                        \"accent\": \"#ffffff\",\n                        \"fill\": \"#f7f8fa\",\n                        \"ink\": \"#2c3039\",\n                        \"gray\": \"#272938\"\n                    }\n                }\n            },\n            \"brandName\": \"Sports Data Developer Portal\",\n            \"logo\": \"data:image/png;base64,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\",\n            \"favicon\": \"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7imr48L3RleHQ+PC9zdmc+\"\n        },\n        \"publishedApiRefs\": [\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/baseball-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/golf-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/tennis-prod\"\n            },\n            {\n                \"ref\": \"/services/environments/prod/apps/sports-results/published-apis/f1-v1-prod\"\n            }\n        ],\n        \"devPortalType\": \"private\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2047,7 +1348,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "40e5e288-2855-424a-a66e-d6e27cbe7f11",
+				"id": "484097bd-2174-4ba8-92cf-a8bc065ccdfa",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2057,7 +1358,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "9848f6bf-9ac2-4fd2-ba04-d2884c7b4ca7",
+				"id": "48782349-258c-44d7-99dc-3f6bf4b4a328",
 				"type": "text/javascript",
 				"exec": [
 					""
