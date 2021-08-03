@@ -11,7 +11,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c8593ce1-c802-4ed2-b8af-e4cd057d8c54",
 						"exec": [
 							"pm.test(\"Login status\", function(){",
 							"    var status = pm.response.code;",
@@ -66,7 +65,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "517d538d-850c-49b3-9def-e867fef933ee",
 						"exec": [
 							"pm.test(\"Check if any environments are present\", function(){",
 							"    var status = pm.response.code;",
@@ -132,7 +130,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eae813c3-8d37-4596-9486-586b8eafc3a5",
 						"exec": [
 							"pm.test(\"Check if any applications are present\", function(){",
 							"    var status = pm.response.code;",
@@ -176,7 +173,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3e2875cb-b20a-401f-b118-9d9b5bbb8294",
 						"exec": [
 							"var current_env = pm.environment.get(\"ENV_CURRENT\");",
 							"console.log(\"NOTICE: Getting list of Apps in [\"+ current_env +\"] environment\");"
@@ -212,7 +208,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f9c051da-47dd-422b-9cc2-949c1152fd36",
 						"exec": [
 							""
 						],
@@ -222,7 +217,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5edbeca4-ea24-42fd-850e-1b978123ed5b",
 						"exec": [
 							"pm.test(\"Check if any Published APIs are present within current Application\", function(){",
 							"    var status = pm.response.code;",
@@ -230,10 +224,10 @@
 							"        const responseJson = pm.response.json();",
 							"        var publishedAPIs = new Array();",
 							"        //Get all the publishedAPIs and store in a variable",
-							"        if(responseJson.length > 0){",
+							"        if(responseJson.items.length > 0){",
 							"",
-							"            for(i=0; i< responseJson.length; i++){",
-							"                publishedAPIs.push(responseJson[i].metadata.name);",
+							"            for(i=0; i< responseJson.items.length; i++){",
+							"                publishedAPIs.push(responseJson.items[i].metadata.name);",
 							"            }",
 							"",
 							"            console.log(\"publishedAPIs within current application marked for deletion: [\" + publishedAPIs + \"]\");",
@@ -292,7 +286,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9a1d98a2-2097-47a6-a8fa-3d9c9ae2e6eb",
 						"exec": [
 							"const publishedAPIs = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"let itr = pm.environment.get(\"TEMP_ITR\");",
@@ -306,7 +299,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e7c3919a-d903-4b52-bd26-d1c48e03b607",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -378,7 +370,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8f582f9c-2e5b-4127-b0ec-8ed5b735bb14",
 						"exec": [
 							"var app = pm.environment.get(\"APP_CURRENT\");",
 							"console.log(\"NOTICE: Deleting Application: \"+app);"
@@ -389,7 +380,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6f8343bf-ea0c-4934-9841-0d3a36d555d8",
 						"exec": [
 							"pm.test(\"Check if Application deletion was successful\", function(){",
 							"    var status = pm.response.code;",
@@ -449,7 +439,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9aef6e70-5a53-4284-bd6b-945f95c9de86",
 						"exec": [
 							"pm.test(\"Check if any DevPortals are present for current environment\", function(){",
 							"    var status = pm.response.code;",
@@ -489,7 +478,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3fddfd39-c0a4-47de-a455-dd2a60b26315",
 						"exec": [
 							""
 						],
@@ -524,7 +512,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d32f8b76-f0db-4e5a-aa74-b8fed6641314",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -564,7 +551,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2fcbf0bc-c663-4655-b134-9e5c2b39050f",
 						"exec": [
 							"const devportals = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"let itr = pm.environment.get(\"TEMP_ITR\");",
@@ -603,7 +589,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "4138b075-7518-48f9-be01-92d431180ac9",
 						"exec": [
 							""
 						],
@@ -613,7 +598,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4e2400ec-d131-496e-8446-51ffd783c8c7",
 						"exec": [
 							"pm.test(\"Check if any Gateways are present\", function(){",
 							"    var status = pm.response.code;",
@@ -678,7 +662,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "bfa193bd-3956-4bec-87aa-cb920d1f01ed",
 						"exec": [
 							"const gateways = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"let itr = pm.environment.get(\"TEMP_ITR\");",
@@ -691,7 +674,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "00d272ee-f96f-4b03-b995-e7931c3b8d38",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -755,7 +737,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "32956bc9-2551-4433-ab8d-766bc836b850",
 						"exec": [
 							""
 						],
@@ -765,7 +746,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "47370d83-97d3-48ec-b0b1-a2b6af8830b7",
 						"exec": [
 							"pm.test(\"Check if any Certificates are present\", function(){",
 							"    var status = pm.response.code;",
@@ -830,7 +810,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "65b8d1ea-71f2-461e-b4a4-a2e3fd030814",
 						"exec": [
 							"const certificates = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"let itr = pm.environment.get(\"TEMP_ITR\");",
@@ -843,7 +822,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1b9e9c69-288d-40d6-bebe-00fb6a13609d",
 						"exec": [
 							"pm.test(\"Check if Certificates deletion was successful\", function(){",
 							"    var status = pm.response.code;",
@@ -900,7 +878,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8d37beec-76a9-471f-9b1c-a49240ce7bde",
 						"exec": [
 							"var env = pm.environment.get(\"ENV_CURRENT\");",
 							"console.log(\"NOTICE: Deleting Environment: \"+env);"
@@ -911,7 +888,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c2f7713-3cf7-4224-8fb7-93bb54e7a0f5",
 						"exec": [
 							"pm.test(\"Check if environment deletion was successful\", function(){",
 							"    var status = pm.response.code;",
@@ -969,7 +945,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2f104380-1f40-4f54-898e-16b092e5dd86",
 						"exec": [
 							""
 						],
@@ -979,7 +954,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b5a7462b-5eee-4acb-aec7-143b907ced54",
 						"exec": [
 							"pm.test(\"Check if any API Definitions are present\", function(){",
 							"    var status = pm.response.code;",
@@ -1042,7 +1016,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fa1f8cf1-c3f7-4cd0-9c0e-1e531fb013ac",
 						"exec": [
 							"pm.test(\"Check if API definition deletion was successful\", function(){",
 							"    var status = pm.response.code;",
@@ -1073,7 +1046,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "00e6a69b-2297-4f6d-8212-e155bf03a8c4",
 						"exec": [
 							"const apiDefinitions = pm.environment.get(\"TEMP_LIST\").split(\",\");",
 							"let itr = pm.environment.get(\"TEMP_ITR\");",
@@ -1110,7 +1082,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "791f865e-c951-4b6c-91ba-f17bfd48bfcc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1120,13 +1091,11 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "56230d23-2fb5-4ed5-9245-adddbbff399b",
 				"type": "text/javascript",
 				"exec": [
 					""
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
