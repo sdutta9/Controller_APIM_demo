@@ -11,7 +11,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "95aad3b4-0a7b-42e9-a348-1987dc687e05",
 						"exec": [
 							"pm.test(\"Login status\", function(){",
 							"    var status = pm.response.code;",
@@ -66,7 +65,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6e9febd6-75de-4052-a7d8-baa1e47cb5b7",
 						"exec": [
 							"console.log(\"NOTICE: Creating F1-results V2 API definition\");"
 						],
@@ -76,7 +74,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d3b52b55-79c4-4ad9-a6c3-2d3c5f18c2e8",
 						"exec": [
 							"pm.test(\"Check if F1-results V2 API Definition got created\", function(){",
 							"    var status = pm.response.code",
@@ -139,7 +136,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "54ca6a45-b70d-4643-b2a3-6edc4cad48cd",
 						"exec": [
 							"console.log(\"NOTICE: Publishing F1-results V2 API\");"
 						],
@@ -149,7 +145,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ad316bee-e426-4224-b9ac-a26b72a3ba66",
 						"exec": [
 							"pm.test(\"Check if F1-results V2 API got published\", function(){",
 							"    var status = pm.response.code",
@@ -173,7 +168,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"metadata\": {\n    \"name\": \"f1-v2-dev\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/f1-results/versions/v2\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ]\n  }\n}",
+					"raw": "{\n  \"metadata\": {\n    \"name\": \"f1-v2-prod\",\n    \"tags\": []\n  },\n  \"desiredState\": {\n    \"apiDefinitionVersionRef\": {\n      \"ref\": \"/services/api-definitions/f1-results/versions/v2\"\n    },\n    \"gatewayRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/gateways/apigw\"\n      }\n    ],\n    \"devportalRefs\": [\n      {\n        \"ref\": \"/services/environments/prod/devportals/devportal\"\n      }\n    ]\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -207,10 +202,8 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "15c75821-95ef-4c0c-a8bd-823d74872b0e",
 						"exec": [
-							"console.log(\"NOTICE: Creating F1 V2 Component\");",
-							""
+							"console.log(\"NOTICE: Creating F1 V2 Component\");"
 						],
 						"type": "text/javascript"
 					}
@@ -218,10 +211,9 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "83da47d6-ce42-46a7-8eb4-162e6ab54db6",
 						"exec": [
 							"pm.test(\"Check if F1 V2 component got created\", function(){",
-							"    var status = pm.response.code",
+							"    var status = pm.response.code;",
 							"    if(status == 200 || status == 201 || status == 202){",
 							"        console.log(\"F1 V2 component created successfully.\");",
 							"        postman.setNextRequest(\"Update_DevPortal\");",
@@ -277,7 +269,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "688f63cf-464d-41bd-8356-843aea5676b8",
 						"exec": [
 							"console.log(\"NOTICE: Updating Sports DevPortal\")"
 						],
@@ -287,7 +278,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5911f704-3f3e-4061-94ae-8be398ac1f71",
 						"exec": [
 							"pm.test(\"Check if DevPortal got updated\", function(){",
 							"    var status = pm.response.code",
@@ -337,6 +327,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
