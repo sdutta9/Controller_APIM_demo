@@ -11,7 +11,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "acbc7cf2-3c5d-4a96-a3d7-1814c2c271a5",
 						"exec": [
 							"pm.test(\"Login status\", function(){",
 							"    var status = pm.response.code;",
@@ -66,7 +65,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "761849f9-373f-4738-90a3-7030045e92df",
 						"exec": [
 							"pm.test(\"Check if there are atleast two N+ instances\", function(){",
 							"    if(pm.response.to.have.status(200)){",
@@ -123,7 +121,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d2441b16-6114-48dd-b447-ef9ce72cb6d3",
 						"exec": [
 							"console.log(\"NOTICE: Creating Env/App framework\");"
 						],
@@ -133,7 +130,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "52c718c7-b572-4a99-93d3-7e818000840d",
 						"exec": [
 							"pm.test(\"Check if environment got created\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -181,7 +177,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "831d78c3-6b37-4957-b409-643552fbdee0",
 						"exec": [
 							"console.log(\"NOTICE: Creating Subscriber Services App\");"
 						],
@@ -191,7 +186,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "060ec6c0-3a9e-44d8-82a3-0c0688e8ece4",
 						"exec": [
 							"pm.test(\"Check if Subscriber Service App got created\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -241,7 +235,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8ece16a9-0f16-4a05-b329-9372364a6702",
 						"exec": [
 							"console.log(\"NOTICE: Creating Sports Results App\");"
 						],
@@ -251,7 +244,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0c3d19e0-0e03-489e-a608-9f9b831e4f86",
 						"exec": [
 							"pm.test(\"Check if Sports Results App got created\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -301,7 +293,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "e787d57f-321e-4eca-991c-e4e6212137ad",
 						"exec": [
 							"console.log(\"NOTICE: Creating Certs\");"
 						],
@@ -311,7 +302,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a0ac291f-b774-420e-addc-2de41aae3c2c",
 						"exec": [
 							"pm.test(\"Check if Certificate got added\", function(){",
 							"    if(pm.response.to.have.status(201)){",
@@ -330,7 +320,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"metadata\": {\n    \"name\": \"sports-e-c\",\n    \"displayName\": \"sports.example.com\"\n  },\n  \"desiredState\": {\n    \"type\": \"PEM\",\n    \"privateKey\": \"-----BEGIN RSA PRIVATE KEY-----\\n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\\n-----END RSA PRIVATE KEY-----\\n\",\n    \"publicCert\": \"-----BEGIN CERTIFICATE-----\\nMIIFIDCCAwgCCQD6+f9qJvm9FzANBgkqhkiG9w0BAQsFADBSMQswCQYDVQQGEwJVUzERMA8GA1UECAwISWxsaW5vaXMxEDAOBgNVBAcMB0NoaWNhZ28xHjAcBgkqhkiG9w0BCQEWD3NoLmR1dHRhQGY1LmNvbTAeFw0yMDA5MDgyMTA0NDNaFw0yMTA5MDgyMTA0NDNaMFIxCzAJBgNVBAYTAlVTMREwDwYDVQQIDAhJbGxpbm9pczEQMA4GA1UEBwwHQ2hpY2FnbzEeMBwGCSqGSIb3DQEJARYPc2guZHV0dGFAZjUuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyWZ5+VLwbkDSW/zdatdfBgvcnoor/GaJnwHeAsqJqQUei8dkEciVRrBJsN/fefXs/KyikILImg9y9xDB+RhfNrYGaFVvHnGbIH+ushySYph5kCR44lI3EXDLYsEd3yth2Zrq4Xlyfd5lWvcp7fL7A+Eo9/NcPme49liV8U6LO7/uhMbp+LkPRds1Apt863pWxmHfaec85YJtEvHS99IxEmgH6AM8u3iAb8LLK3QYvE4ZlXemWfYDPMXqauj00XNifzRDQ35WZn4gtapl3EzuvCY3Vg/K8Xlenf22XJDa8Bu2J65+Bw8NZcf24vUkud2EVBjOyvU/xA4rEl6xqyeODopfnufMYlKMnj44w4Pveo+Tm7YOh97yszge4vJZR1siRsmUN1QwkD0pGvPP3LSRhzv2PDepohx6uF4nFullnGWd9oYmqxf4dDogRV3AyPyOXl3gwixQSeQocNN310LM4LbaucAn6d79fSOh7EPl61NSARNoQ5hT2ybs0v3GXBg/oWW4sAsLUpJH/Djp4Vh0nBrxPri8CYK6rFW0O+YuF0TDL06jhnBK3HlJf4f8VAV218gt0/P4bSrWcUiLXme9Cl0+c0zfopAI2np/9O87RmoaV6A0no5MKSQz8j4PWy3kJSMpkenvAzuOgXiImiP76GcMyaSoopIUEpXoMDNlWX0CAwEAATANBgkqhkiG9w0BAQsFAAOCAgEAhv3/5XKF/plN3ItannmKOw/Hl1JuJEqKvdzjrg5xmZ192zXn4Z6lRwSyEiod/DUY0kfkZF1ff8Hae6gmKIJRhfPaGHgIAVzqzfhShU8jNEPTD6JMUzqvAXGNxjQ4iaxFaocfZ5AHAG1by76b+srIXcLyUODbP6ZxkHGuR7T0oWfF4riZMWmBL2s+WzYKi9xJfYcuMkBZj0nMeY+MYLaXoc5fXhtmkR2aF5LS5fhPDpJDxY3hdlHLffkbyTK8H+EvuP1SyBqjqP6kxMCoYoIPJio5CaLkzwdKpdZwXRsdiw78a8DvmSRXSBF/6CyQBQs3NZuJKml/S19SesbEYoBMCqWtZCtfKJWdC4Teri+72c8qLJwMlbH3snSk9qcIWGAqJbBLU2TdAMZDxyPQLRu4TO7etNRHX66nUDlnltQYAcNamV6LE/7W4utE1MjYWyCYjCEWwlmZlXe4vQO7cYORspuRBMdTPLz9uzGt71p8atgJTD7cExKE8x3fwhDN09XxjkWxLzwqj99wy7ueAs9NfTupJPupHD9tkH9cdoxVi+ypiN8U4MtDEcsGxB/9KjfbGVQmkKDnR8mqS7qR764P+icn+3sUvbcZgcHuzVKAPEqQNA1ikdCv1rqk3k4qX7ONk6Gk7lVgUsVsgXLCrNaI1Nb0Ec8tPInC2Z/1xFbtltU=\\n-----END CERTIFICATE-----\\n\",\n    \"password\": \"\",\n    \"caCerts\": []\n  }\n}",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"sports-e-c\",\n        \"displayName\": \"sports.example.com\"\n    },\n    \"desiredState\": {\n        \"type\": \"PEM\",\n        \"privateKey\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvdnX+PyDI1/IS\\nelK3xkT4EOP/Q/CuASZscp5DBjafSALdFMTHTTXfXtVAXFbEIBlZaDZJjBRPGZS1\\nd3qb66/p1fXC0ZXEVJzE+ixv+AzpwZY3G+phLr+NqMOv8Gg/kDbF46m4UFhnjrtX\\nsvLktDDYlbi6AQO23Vq3wERgM57DhHDhYZnMX6XPZ2rVrQTpcNjKHnjUeXf+NZh3\\nEfqxJPVoh2pylHtTD7wnRPbLq2u4dKKRdO1kjCrsxKFhX7y93tP6eM4j4XGf0pXZ\\nkHWjxN9rx9fMJuLxVpGFaNwJYffGLmgzmdcC/Fp5mzXCMoIIICSq8fma6nsoTweE\\ndMGuzC0fAgMBAAECggEAWjsK9pI0I9SZEdOB0ivNr9vPw6eGj5Tb040lwcXiNQrt\\nHg/eGbek6pd0BsL1g6oWHxouQKgekYbQKHmmvaP4NMHoviTVZb81Vz5nt7TRvyvk\\nObbLUuqdaxXMfB+fHIDnCeDHmJcIv0hxIupNajsXm2lzM4PuCw3N5wyinO4uyM/q\\nunx4L1arsTkNstYFLMPZhpEDvoKJmmN9XUj+UdJPWJJxIJC/yfRte/WxH2sv7cpb\\nxWZSNj28cTSvXz32q962l3LJ3qjngCVrOceKHeCpgNaTRO/16mnodECUhB6X49YP\\nu6iezYj6l5u88SDiUDBsgq5vVSejdXHzeSKnt4jyAQKBgQDbIPCjcPCb4QrEFZhk\\nY9deew/cthLSAg2ohJlmBgWPBIaoSbhmsZLJazn0jWkNoeF6vrv3cMrdsKsZ4vLq\\ndpcL3qWMMhAyKSDEoQPHSxCvTLj+sWigffVHqhp0LfAO+tTaYPe7Lnx4qwzpiqvB\\nQy5D67vPxRRt5+0ESU3aflKGgQKBgQDM/JemtQOrVNtE/aP+XzeApAWNlWmrtJAn\\n+CKJUFiHMtfk8QuZMM67GTyh+nhlKQQFJEW3pUYTCta5y4eHkMiquecHDKvAvUjk\\nHFEo38zZaMi4mOsdcLFAokht7b4sSf2R4ZRXXcK9sOnuec9vh5gSpOg2mYRA5V9J\\nScfms6cjnwKBgBzwUbdUAAKmCrTwoSqI4PVyTRr51Kx1ZvZdZKDLpMpJb7sj2T1+\\nsAL3rTS1xCzvtwZt0AcSl0gFv+LwTOJX/QStR7GnHupw8gnltckJCdAM0tWX+lhP\\nqifnuAyl0HE6AQhCDBVlQzzwYgkprhsc0yxXInuC7HrDSVLql2SGkEGBAoGAKx3i\\nZC1lBS/HI17alNHAYe2eQWaxIG3NeKrH0Ow2gtGd+cj98I4EnfQz/boqgtS6xL4Z\\ncARyleTMv63g5xH8M3UA9EmlAtiNsXWHWLqiYwSYW8PGiJ3AmuDHrV+5haVWkc3K\\nHwpYwP+qZP/4MvRpd1p6gamO2PumLEs5ofwd5u8CgYEA2Ui1KkqMuS0XpOEcpwrb\\nb/fljBVkQlks3eTyZP/FT1Glg0BgEUM8CChGHIBnbxsu/LYk6EgQaE7h66sS3mUf\\nFB0jD+e/ITLxkYIUS8xt3VnaASIddNWa49ChN4g4LQM1iX3c53SwKHqHTbNStrbg\\n3lZvsm6kpQyI65/CEigBLI0=\\n-----END PRIVATE KEY-----\\n\",\n        \"publicCert\": \"-----BEGIN CERTIFICATE-----\\nMIICrDCCAZQCCQCHrYuh4cppjjANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA0q\\nLmV4YW1wbGUuY29tMB4XDTIxMDgyNjE4MjMzNFoXDTI2MDgyNTE4MjMzNFowGDEW\\nMBQGA1UEAwwNKi5leGFtcGxlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC\\nAQoCggEBAK92df4/IMjX8hJ6UrfGRPgQ4/9D8K4BJmxynkMGNp9IAt0UxMdNNd9e\\n1UBcVsQgGVloNkmMFE8ZlLV3epvrr+nV9cLRlcRUnMT6LG/4DOnBljcb6mEuv42o\\nw6/waD+QNsXjqbhQWGeOu1ey8uS0MNiVuLoBA7bdWrfARGAznsOEcOFhmcxfpc9n\\natWtBOlw2MoeeNR5d/41mHcR+rEk9WiHanKUe1MPvCdE9sura7h0opF07WSMKuzE\\noWFfvL3e0/p4ziPhcZ/SldmQdaPE32vH18wm4vFWkYVo3Alh98YuaDOZ1wL8Wnmb\\nNcIyggggJKrx+ZrqeyhPB4R0wa7MLR8CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEA\\nRGBuhhxJxpvTLPRDL+2/NHSRdYYh2OodVzlcrph04wEHxhE3hYdbL1M76eBdyJXW\\niwUU8c+YAgnCUYTLK2BQoyKdM3FmAawlrPjIqp4echWWUwdeXJvgnkNMiVITqptP\\nmYN31WbdqMjG1t3dlwQ/c5TJ+SoJtRWryPhPb8dtR55o3K1tVWBkyXLWsAiucTYS\\nxKD58i1atk/JlURmPNO3JBv1CKMgL4EouIZXLH3/CRI7UAnIl453anK3X7kUZsVn\\n0X/NgzsVVdswmjht8AztT3gQy4mRgrZzYlEcVULq1B9dGNhUG+BQRg50yXnAR//y\\nYOdxteHBXZ2/ohGJ1R8BVA==\\n-----END CERTIFICATE-----\\n\",\n        \"password\": \"\",\n        \"caCerts\": []\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -361,7 +351,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6bbfb862-96d1-4535-863c-f196cb4582ab",
 						"exec": [
 							"console.log(\"NOTICE: Creating gateway\");"
 						],
@@ -371,7 +360,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f4509960-e40a-4bd8-9713-780487ea0fe0",
 						"exec": [
 							"pm.test(\"Check if Gateway got created\", function(){",
 							"    if(pm.response.to.have.status(202)){",
@@ -422,7 +410,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "19885952-4e09-4b50-b279-5550c07b1625",
 						"exec": [
 							"console.log(\"NOTICE: Creating devportal gateway\");"
 						],
@@ -432,7 +419,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "91ebfd49-be00-4a6e-b059-27d9a0d6a4be",
 						"exec": [
 							"pm.test(\"Check if devportal gateway got created\", function(){",
 							"    if(pm.response.to.have.status(202)){",
@@ -483,7 +469,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "63e84b5f-3435-4a29-ab1c-323597e1589f",
 						"exec": [
 							"console.log(\"NOTICE: Creating Register API definition\");"
 						],
@@ -493,7 +478,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8db14935-26dc-44ff-b3df-bb9aedf29928",
 						"exec": [
 							"pm.test(\"Check if register API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -549,7 +533,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9947ebfa-4509-4842-94b2-5fe9d902fdac",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Register API\");"
 						],
@@ -559,7 +542,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1a4e4258-f43c-41f5-a294-ab0e54a1231a",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -625,7 +607,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1c4e2b34-80f5-4b64-953f-84a1af237a46",
 						"exec": [
 							"console.log(\"NOTICE: Creating Register Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -637,7 +618,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "332d0f0b-3b0b-4693-bc12-8001b7ba09ed",
 						"exec": [
 							"pm.test(\"Check if register component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -696,7 +676,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "06648a65-d1ea-4b5a-a826-abb83ab399ca",
 						"exec": [
 							"console.log(\"NOTICE: Creating Login API definition\");"
 						],
@@ -706,7 +685,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b7ed056e-2158-4e44-ae8a-e96795439cba",
 						"exec": [
 							"pm.test(\"Check if Login API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -762,7 +740,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "37ee9ea1-fdfc-457e-8a5c-b323ba11c426",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Login API\");"
 						],
@@ -772,7 +749,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4715100e-660d-40cb-a2eb-2972d8e271a9",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -838,7 +814,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6e294028-9935-4fa3-aada-c76267dc65d3",
 						"exec": [
 							"console.log(\"NOTICE: Creating Login Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -850,7 +825,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8c4852e1-ac74-401d-bfb0-e55a3f25a982",
 						"exec": [
 							"pm.test(\"Check if Login component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -909,7 +883,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "7f74bcca-7b6c-484e-ba36-dec9a81b5155",
 						"exec": [
 							"console.log(\"NOTICE: Creating Profile API definition\");"
 						],
@@ -919,7 +892,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6a20bad9-c7ac-4dac-9589-97a10dcb6b8d",
 						"exec": [
 							"pm.test(\"Check if Profile API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -975,7 +947,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ecb8336b-8d32-45bd-965e-8b45ea231144",
 						"exec": [
 							"console.log(\"NOTICE: Publishing profile API\");"
 						],
@@ -985,7 +956,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f9c969b3-950e-4e13-9443-31a807c4a2e1",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1051,7 +1021,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6f7f4e89-8601-43a4-94a3-649c7141bf6c",
 						"exec": [
 							"console.log(\"NOTICE: Creating Profile Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1063,7 +1032,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d08fd7f7-ca84-4c9f-b7d9-63140da497bd",
 						"exec": [
 							"pm.test(\"Check if Profile component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1122,7 +1090,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "586cafd2-5f92-41af-8388-2d014482140b",
 						"exec": [
 							"console.log(\"NOTICE: Creating Baseball-stats API definition\");"
 						],
@@ -1132,7 +1099,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c6edabb-f6ef-4dc2-b294-67e92dd80dbb",
 						"exec": [
 							"pm.test(\"Check if Baseball-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1188,7 +1154,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5804323d-011e-49c9-b3f5-99a90af18b62",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Baseball-stats API\");"
 						],
@@ -1198,7 +1163,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ce5a21a0-64ce-4019-bebb-ee1a37786e34",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1264,7 +1228,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b08bae67-524d-48fa-a316-5cad785f0107",
 						"exec": [
 							"console.log(\"NOTICE: Creating Baseball Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1276,7 +1239,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "344013a5-39f7-42e6-a569-1c938aba2200",
 						"exec": [
 							"pm.test(\"Check if Baseball component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1335,7 +1297,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "62037dc8-4d01-4a4b-9aa0-fd41925c9af2",
 						"exec": [
 							"console.log(\"NOTICE: Creating Golf-stats API definition\");"
 						],
@@ -1345,7 +1306,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2dd74492-db54-477a-ae82-173e597f7997",
 						"exec": [
 							"pm.test(\"Check if Golf-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1401,7 +1361,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "da5fc651-17e8-4c2c-9404-bac51f5528f2",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Golf-stats API\");"
 						],
@@ -1411,7 +1370,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1b174a06-cce7-438a-b127-35759c0411c0",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1477,7 +1435,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "35a2b25d-3ee0-4e2f-b7b3-a372f26eca8c",
 						"exec": [
 							"console.log(\"NOTICE: Creating Golf Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1489,7 +1446,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a2e8ffd4-1b87-4c3b-a1ee-c2fe707cb153",
 						"exec": [
 							"pm.test(\"Check if Golf component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1548,7 +1504,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "19a43e46-e97f-412a-acf2-d962fc460dbf",
 						"exec": [
 							"console.log(\"NOTICE: Creating Tennis-stats API definition\");"
 						],
@@ -1558,7 +1513,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "89aee3ed-b71a-473c-a3f9-372d7a37087a",
 						"exec": [
 							"pm.test(\"Check if Tennis-stats API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1614,7 +1568,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "085b0c39-b81c-4124-b4db-ec5de9ca7fd4",
 						"exec": [
 							"console.log(\"NOTICE: Publishing Tennis-stats API\");"
 						],
@@ -1624,7 +1577,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4482c566-c4c3-4b38-b6f1-fcb88c5675f3",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1690,7 +1642,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2ebb7ab6-2877-4e44-90c8-2a671082cc9e",
 						"exec": [
 							"console.log(\"NOTICE: Creating Tennis Component\");",
 							"pm.environment.set(\"ECHO_IP\",\"127.0.0.1\");",
@@ -1702,7 +1653,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7a1c33ff-c21e-4b52-9aa4-eb7d3272958b",
 						"exec": [
 							"pm.test(\"Check if Tennis component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1761,7 +1711,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3786ffb3-a7cf-4d4a-9ce9-6d10b75caab7",
 						"exec": [
 							"console.log(\"NOTICE: Creating F1-results API definition\");"
 						],
@@ -1771,7 +1720,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "86e0ff58-54e0-4e72-b347-2013a8111d6b",
 						"exec": [
 							"pm.test(\"Check if F1-results API Definition got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1837,7 +1785,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "aae69654-b07a-4b16-b396-61439c67688f",
 						"exec": [
 							"console.log(\"NOTICE: Publishing F1-results API\");"
 						],
@@ -1847,7 +1794,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "47fef459-fff0-4a60-99c3-ac83cf89f987",
 						"exec": [
 							"const sleep = (seconds) => {",
 							"    console.log(\"sleeping for \"+ seconds +\" seconds...\");",
@@ -1913,7 +1859,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d87fdafe-723c-4fae-9f2e-ce0ab8c12528",
 						"exec": [
 							"console.log(\"NOTICE: Creating F1 V1 Component\");",
 							""
@@ -1924,7 +1869,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "52a8a2df-d977-4685-8cd2-e2d87d6b9439",
 						"exec": [
 							"pm.test(\"Check if F1 V1 component got created\", function(){",
 							"    var status = pm.response.code;",
@@ -1982,7 +1926,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f30fa5db-d192-45fd-8a97-61e46a6b640a",
 						"exec": [
 							"console.log(\"NOTICE: Creating developer portal object\")"
 						],
@@ -1992,7 +1935,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5fe08fb0-55d6-41ec-9e8d-c3d2b6429a88",
 						"exec": [
 							"pm.test(\"Check if DevPortal got created\", function(){",
 							"    var status = pm.response.code;",
@@ -2047,7 +1989,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "40e5e288-2855-424a-a66e-d6e27cbe7f11",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2057,13 +1998,11 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "9848f6bf-9ac2-4fd2-ba04-d2884c7b4ca7",
 				"type": "text/javascript",
 				"exec": [
 					""
 				]
 			}
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
